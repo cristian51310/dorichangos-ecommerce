@@ -1,0 +1,105 @@
+// ***********************************************************************
+// ****                             Options                           ****
+// ***********************************************************************
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ***********************************************************************
+// ****                             Models                            ****
+// ***********************************************************************
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model User {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  role           Role      @default(CUSTOMER)
+  accounts       Account[]
+  orders         Order[]
+}
+
+model Product {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  price       Float
+  image       String
+  inStock     Boolean
+  categoryIDs String[]   @db.ObjectId
+  categories  Category[] @relation(fields: [categoryIDs], references: [id])
+  sizes       Size[]
+}
+
+model Category {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String    @unique
+  description String
+  image       String
+  productsIDs String[]  @db.ObjectId
+  products    Product[] @relation(fields: [productsIDs], references: [id])
+}
+
+model Order {
+  id              String            @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String            @db.ObjectId
+  amount          Float
+  currency        String
+  status          String
+  deliveryStatus  String?
+  createDate      DateTime          @default(now())
+  paymentIntentId String            @unique
+  products        CartProductType[]
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+type CartProductType {
+  id          String
+  name        String
+  description String
+  category    String
+  image       String
+  quantity    Int
+  price       Float
+}
+
+type Size {
+  name        String
+  price       Float
+  description String
+}
+
+enum Role {
+  ADMIN
+  EMPLOYEE
+  CUSTOMER
+}
