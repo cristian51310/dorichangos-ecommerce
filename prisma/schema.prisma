@@ -54,10 +54,9 @@ model Product {
   description String
   price       Float
   image       String
-  inStock     Boolean
+  stock       Int
   categoryIDs String[]   @db.ObjectId
   categories  Category[] @relation(fields: [categoryIDs], references: [id])
-  sizes       Size[]
 }
 
 model Category {
@@ -82,6 +81,11 @@ model Order {
   user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Banner {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  image String
+}
+
 type CartProductType {
   id          String
   name        String
@@ -90,12 +94,6 @@ type CartProductType {
   image       String
   quantity    Int
   price       Float
-}
-
-type Size {
-  name        String
-  price       Float
-  description String
 }
 
 enum Role {

@@ -106,7 +106,7 @@ export default function ProductDetail({ product }: ProductDetailProps){
 
             <Button
               className="my-2"
-              disabled={product.inStock === false}
+              disabled={product.stock === 0}
               onClick={() => {
                 handleAddToCart(cartProduct)
                 toast.success('Producto añadido al carrito')

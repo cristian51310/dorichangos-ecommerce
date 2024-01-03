@@ -1,140 +1,66 @@
 "use client"
+
 import { Icons } from "@/components/icons"
-import CategoryInput from "@/components/inputs/category-input"
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { UploadFileIcon, uploadFileContainer } from "@/components/uploadFileIcon"
 import { firebaseImageUpload } from "@/lib/firebaseImageUpload"
 import { productSchema } from "@/validations/productSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Category } from "@prisma/client"
-import { DialogClose, DialogDescription, DialogTitle } from "@radix-ui/react-dialog"
-import { Separator } from "@radix-ui/react-menubar"
 import axios from "axios"
 import { ImageIcon } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useCallback, useEffect, useState } from "react"
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
 type ProductFormValues = z.infer<typeof productSchema>
 
-export interface ImageType {
-  url: File | null
-}
-
-export interface UploadImageType {
-  url: string
-}
-
-interface Size {
-  name: string;
-  price: number;
-  description: string;
-}
-
 export default function AddProductForm({ categories }: { categories: Category[] }) {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState(false)
-  const [isProductCreated, setIsProductCreated] = useState(false)
-  const [sizes, setSizes] = useState<Size[]>([]);
 
-  const addSize = (size: Size) => {
-    setSizes((prevSizes) => [...prevSizes, size]);
-  };
-
-  const removeSize = (index: number) => {
-    setSizes((prevSizes) => [
-      ...prevSizes.slice(0, index),
-      ...prevSizes.slice(index + 1),
-    ]);
-  };
-
-  const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FieldValues>({
-    defaultValues: {
-      name: "",
-      price: "",
-      description: "",
-      category: [],
-      image: null,
-    }
+  const form = useForm<ProductFormValues>({
+    resolver: zodResolver(productSchema),
+    mode: "onChange",
   })
 
-  const setCustomValue = useCallback((id: string, value: any) => {
-    setValue(id, value, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    })
-  }, [setValue]);
-
-  useEffect(() => {
-    if (isProductCreated) {
-      reset()
-      setIsProductCreated(false)
-    }
-  }, [isProductCreated, reset])
-
-  const category = watch("category")
-
-  const onSubmittest: SubmitHandler<FieldValues> = async (data) => {
-    setIsLoading(true);
+  async function onSubmit(data: ProductFormValues) {
+    setIsLoading(true)
 
     try {
-      toast.loading("Agregando producto...")
+      toast.info("Subiendo imagen...");
       const uploadedImage = await firebaseImageUpload(data.image[0], "products");
 
-      const sizesData = sizes.map((size) => ({
-        name: size.name,
-        price: size.price,
-        description: size.description,
-      }));
-
-      const productData = {
+      const categoryData = {
         name: data.name,
         description: data.description,
         price: data.price,
         image: uploadedImage.url,
-        inStock: true,
-        category: data.category,
-        sizes: sizesData,
+        stock: data.stock,
+        categoryID: data.category,
       };
 
-      await axios.post("/api/products-beta", productData);
-      setIsProductCreated(true);
-      toast.success("Producto creado");
-      router.push("/admin/productsbeta");
-
-      console.log(productData)
+      await axios.post("/api/products", categoryData);
+      toast.success("Categoria creada");
+      router.push("/admin/products");
     } catch (error) {
       setIsLoading(false);
       toast.error("Algo salió mal");
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
-
-  const form = useForm<ProductFormValues>({
-    resolver: zodResolver(productSchema),
-    defaultValues: {
-      image: undefined
-    },
-    mode: "onChange",
-  })
-
-  async function onSubmit(data: ProductFormValues) {
-    console.log(data)
-  }
 
   return (
     <>
@@ -157,12 +83,64 @@ export default function AddProductForm({ categories }: { categories: Category[] 
             )}
           />
 
+          <div className="grid md:grid-cols-3 gap-4">
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel>Precio del producto</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={0}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Este es el precio del producto, si por alguna razon quieres que sea gratis
+                    el precio debe de ser 0.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Categoria</FormLabel>
+                  <div>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Categoria" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {categories.map((item) => (
+                            <SelectItem key={item.id} value={item.id}>{item.name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </div>
+                  <FormDescription>
+                    Categoria de tu producto.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <FormField
             control={form.control}
-            name="price"
+            name="stock"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Precio del producto</FormLabel>
+                <FormLabel>Existencias del producto</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -170,10 +148,6 @@ export default function AddProductForm({ categories }: { categories: Category[] 
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                  Este es el precio del producto, si por alguna razon quieres que sea gratis
-                  el precio debe de ser 0.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -212,6 +186,7 @@ export default function AddProductForm({ categories }: { categories: Category[] 
                       <Input
                         type="file"
                         className="hidden"
+                        accept="image/png, image/jpeg"
                         name={field.name}
                         onChange={(e) => {
                           field.onChange(e.target.files);
@@ -229,7 +204,7 @@ export default function AddProductForm({ categories }: { categories: Category[] 
                         className="rounded-md object-cover w-40 h-40 border-2"
                       />
                     ) : (
-                      <div className="grid place-items-center w-40 h-40 bg-neutral-100 rounded-md border-2">
+                      <div className="grid place-items-center w-40 h-40 bg-pink-100/30 rounded-md border-2">
                         <ImageIcon size={56} className="text-neutral-500" />
                       </div>
                     )}
@@ -245,98 +220,8 @@ export default function AddProductForm({ categories }: { categories: Category[] 
             Agregar Producto
           </Button>
 
-        </form>
-      </Form>
-
-      <div className="grid gap-4">
-
-        <Label className="my-3">Seleccionar las categorias de tu producto</Label>
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-5 overflow-y-auto">
-          {categories.map((item) => {
-            if (item.name === "all") return null;
-            return (
-              <CategoryInput
-                key={item.id}
-                onClick={() => {
-                  const currentCategories = watch("category") || [];
-                  const updatedCategories = currentCategories.includes(item.id)
-                    ? currentCategories.filter((categoryId: any) => categoryId !== item.id)
-                    : [...currentCategories, item.id];
-                  setCustomValue("category", updatedCategories);
-                }}
-                selected={category.includes(item.id)} // Check if category ID is in the array
-                label={item.name}
-                image={item.image}
-              />
-            );
-          })}
-        </div>
-
-        <Separator />
-        <p className="font-semibold">Tamaños de los productos</p>
-        <p className="text-muted-foreground text-sm">Agrega los tamaños en los que este producto esta disponible</p>
-        <div className="grid grid-cols-4 gap-6">
-          {sizes.map((flavor, index) => (
-            <Card
-              key={index}
-              className="flex flex-col items-center justify-between p-3 pt-5 gap-6"
-            >
-              <p>{flavor.name}</p>
-              <Button
-                variant="destructive"
-                onClick={() => removeSize(index)}
-              >
-                Eliminar
-              </Button>
-            </Card>
-          ))}
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button>
-                Agregar Sabor
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Agrega un sabor para el producto</DialogTitle>
-                <DialogDescription className="text-sm">
-                  Si el producto tiene variaciones de sabor agrega cada una hasta completarlas
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <Input
-                  type="text"
-                  placeholder="Nombre del tamaño"
-                  onChange={(e) => setCustomValue("sizeName", e.target.value)}
-                />
-                <Input
-                  type="number"
-                  placeholder="Precio del tamaño"
-                  onChange={(e) => setCustomValue("sizePrice", e.target.value)}
-                />
-                <Textarea
-                  placeholder="Descripción del tamaño"
-                  onChange={(e) => setCustomValue("sizeDescription", e.target.value)}
-                />
-                <DialogClose asChild>
-                  <Button
-                    onClick={() => {
-                      addSize({
-                        name: watch("sizeName"),
-                        price: watch("sizePrice"),
-                        description: watch("sizeDescription"),
-                      })
-                    }}
-                  >
-                    Agregar Tamaño
-                  </Button>
-                </DialogClose>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </div>
+        </form >
+      </Form >
     </>
-
   )
 }

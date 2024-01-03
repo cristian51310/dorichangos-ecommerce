@@ -8,26 +8,29 @@ import { Textarea } from "@/components/ui/textarea"
 import { UploadFileIcon, uploadFileContainer } from "@/components/uploadFileIcon"
 import { firebaseImageUpload } from "@/lib/firebaseImageUpload"
 import { categorySchema } from "@/validations/categorySchema"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { Category } from "@prisma/client"
 import axios from "axios"
-import { ImageIcon } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
 type CategoryFormValues = z.infer<typeof categorySchema>
 
-export default function AddCategoryForm() {
+export default function EditCategoryForm({ category }: { category: Category }) {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
   const form = useForm<CategoryFormValues>({
-    resolver: zodResolver(categorySchema),
+    defaultValues: {
+      name: category.name,
+      description: category.description,
+      image: category.image,
+    },
     mode: "onChange",
   })
 
@@ -36,16 +39,22 @@ export default function AddCategoryForm() {
 
     try {
       toast.info("Subiendo imagen...");
-      const uploadedImage = await firebaseImageUpload(data.image[0], "categories");
+
+      let image = data.image;
+
+      if (selectedImage) {
+        image = await firebaseImageUpload(data.image[0], "categories");
+      }
 
       const categoryData = {
+        id: category.id,
         name: data.name,
         description: data.description,
-        image: uploadedImage.url,
+        image: image,
       };
 
-      await axios.post("/api/categories", categoryData);
-      toast.success("Categoria creada");
+      await axios.put("/api/categories", categoryData);
+      toast.success("Categoria Actualizada");
       router.push("/admin/categories");
     } catch (error) {
       setIsLoading(false);
@@ -116,19 +125,13 @@ export default function AddCategoryForm() {
                       ref={field.ref}
                     />
                   </Label>
-                  {selectedImage ? (
-                    <Image
-                      src={URL.createObjectURL(selectedImage)}
-                      alt="Selected"
-                      width={200}
-                      height={200}
-                      className="rounded-md object-cover w-40 h-40 border-2"
-                    />
-                  ) : (
-                    <div className="grid place-items-center w-40 h-40 bg-neutral-100 rounded-md border-2">
-                      <ImageIcon size={56} className="text-neutral-400" />
-                    </div>
-                  )}
+                  <Image
+                    src={selectedImage ? URL.createObjectURL(selectedImage) : category.image}
+                    alt="Category Image"
+                    width={200}
+                    height={200}
+                    className="rounded-md object-cover w-40 h-40 border-2"
+                  />
                 </div>
               </FormControl>
               <FormMessage />
@@ -138,7 +141,7 @@ export default function AddCategoryForm() {
 
         <Button className="my-3" disabled={isLoading}>
           {isLoading && (<Icons.spinner className="mr-2 h-4 w-4 animate-spin" />)}
-          Agregar Categoria
+          Actualizar Categoria
         </Button>
 
       </form>

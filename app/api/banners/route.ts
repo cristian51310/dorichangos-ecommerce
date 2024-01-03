@@ -8,35 +8,30 @@ export async function POST(request: Request) {
   if (!user || user.role !== "ADMIN") return NextResponse.error()
 
   const body = await request.json()
-  const { name, description, image } = body
+  const { image } = body
 
-  const product = await prisma.category.create({
+  const promocional = await prisma.banner.create({
     data: {
-      name,
-      description,
       image
     }
   })
 
-  return NextResponse.json(product)
+  return NextResponse.json(promocional)
 }
 
-export async function PUT(request: Request) {
+export async function DELETE(request: Request) {
   const user = await getCurrentUser()
 
   if (!user || user.role !== "ADMIN") return NextResponse.error()
 
   const body = await request.json()
-  const { id, name, description, image} = body
+  const { id } = body
 
-  const product = await prisma.category.update({
-    where: { id },
-    data: {
-      name,
-      description,
-      image
+  const promocional = await prisma.banner.delete({
+    where: {
+      id
     }
   })
 
-  return NextResponse.json(product)
+  return NextResponse.json(promocional)
 }

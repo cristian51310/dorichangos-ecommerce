@@ -3,6 +3,7 @@ import { ThemeProvider } from '@/providers/theme-provider'
 import type { Metadata } from 'next'
 import { Inter as FontSans } from "next/font/google"
 import './globals.css'
+import { Toaster } from 'sonner'
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -31,6 +32,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           enableSystem
           disableTransitionOnChange
         >
+          <Toaster 
+            richColors
+          />
           {children}
         </ThemeProvider>
       </body>

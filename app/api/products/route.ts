@@ -13,37 +13,20 @@ export async function POST(request: Request) {
     description,
     price,
     image,
-    inStock,
-    menuId,
-    category,
-    sizes,
-    flavors
+    stock,
+    categoryID,
   } = body
 
-  const product = await prisma.productBeta.create({
+  const product = await prisma.product.create({
     data: {
       name,
       description,
       price: parseFloat(price),
-      inStock,
+      stock: parseInt(stock),
       image,
-      menu: {
-        connect: {
-          id: menuId
-        }
-      },
       categories: {
-        connect: category.map((id: any) => ({ id })) //posible tipo de dato incorrecto
+        connect: categoryID
       },
-      sizes: sizes.map((size: any) => ({
-        name: size.name,
-        price: parseFloat(size.price),
-        description: size.description,
-      })),
-      flavors: flavors.map((flavor: any) => ({
-        name: flavor.name,
-        description: flavor.description,
-      })),
     }
   })
 
@@ -58,12 +41,12 @@ export async function PUT(request: Request) {
   if (user.role !== "ADMIN") return NextResponse.error()
 
   const body = await request.json()
-  
-  const { id, inStock } = body
+
+  const { id, stock } = body
 
   const product = await prisma.product.update({
     where: { id },
-    data: { inStock }
+    data: { stock }
   })
 
   return NextResponse.json(product)

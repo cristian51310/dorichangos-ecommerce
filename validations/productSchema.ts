@@ -36,7 +36,7 @@ export const productSchema = z.object({
     }),
 
   stock: z
-    .number({
+    .string({
       required_error: "El stock es requerido"
     }),
     
@@ -49,4 +49,8 @@ export const productSchema = z.object({
       (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
       "El formato de la imagen no es válido"
     ),
+
+  category: z.string({
+    required_error: "La categoría es requerida"
+  }),
 })

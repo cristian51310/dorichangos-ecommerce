@@ -1,3 +1,4 @@
+import getBanners from "@/actions/getBanners"
 import CustomCarrousel from "@/components/custom-carousel"
 import { Metadata } from 'next'
 
@@ -7,9 +8,11 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
+  const banners = await getBanners()
+
   return (
     <>
-      <CustomCarrousel />
+      <CustomCarrousel banners={banners} />
 
       <div className="grid gap-3 md:gap-5 grid-cols-2 lg:grid-cols-5">
         aqui van los productos

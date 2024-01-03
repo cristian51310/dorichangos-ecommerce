@@ -8,20 +8,17 @@ import {
   flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
   getSortedRowModel, useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, TrashIcon } from "lucide-react"
+import { ArrowUpDown, EditIcon, TrashIcon } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import { useState } from "react"
 import { toast } from "sonner"
-
-interface AdminCategoriesProps {
-  categories: Category[];
-}
 
 export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: "id",
-    header: ({ column }) => (<div className="hidden" />),
-    cell: ({ row }) => (<div className="hidden">{row.getValue("id")}</div>)
+    header: () => (<div className="hidden" />),
+    cell: () => (<div className="hidden" />)
   },
   {
     accessorKey: "image",
@@ -54,14 +51,19 @@ export const columns: ColumnDef<Category>[] = [
   {
     id: "actions",
     header: () => <div className="text-center">Acciones</div>,
-    cell: () => {
+    cell: ({ row }) => {
       return (
-        <div className="flex justify-center items-center gap-5">
+        <div className="flex justify-center items-center gap-4">
           <Button variant="outline" size="icon"
             onClick={() => toast.success("Stock actualizado")}
           >
             <LoopIcon className="h-4 w-4" />
           </Button>
+          <Link href={`/admin/categories/edit/${row.getValue("id")}`}>
+            <Button variant="outline" size="icon" >
+              <EditIcon className="h-4 w-4" />
+            </Button>
+          </Link>
           <Button variant="outline" size="icon"
             onClick={() => toast.warning("Borrando ...")}
           >
@@ -73,7 +75,7 @@ export const columns: ColumnDef<Category>[] = [
   },
 ]
 
-export function DataTableDemo({ categories }: AdminCategoriesProps) {
+export function DataTableDemo({ categories }: { categories: Category[] }) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})

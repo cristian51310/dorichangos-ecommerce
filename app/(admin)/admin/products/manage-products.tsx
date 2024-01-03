@@ -17,18 +17,14 @@ import {
 import axios from "axios"
 import { deleteObject, getStorage, ref } from "firebase/storage"
 import { ArrowUpDown, ChevronDown, TrashIcon } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useCallback, useState } from "react"
 import { MdClose, MdDone } from "react-icons/md"
 import { toast } from "sonner"
-import Image from "next/image"
 
-interface AdminProductsProps {
-  products: Product[];
-}
-
-export function DataTableDemo({ products }: AdminProductsProps) {
+export function DataTableDemo({ products }: { products: Product[] }) {
   const router = useRouter()
   const storage = getStorage(firebaseApp)
 
@@ -84,23 +80,15 @@ export function DataTableDemo({ products }: AdminProductsProps) {
       header: "Categoria",
     },
     {
-      accessorKey: "inStock",
+      accessorKey: "stock",
       header: "Disponible",
       cell: ({ row }) => (
         <div className="font-semibold">
-          {row.getValue("inStock") ? (
-            <Status
-              text="En Stock"
-              icon={MdDone}
-              variant="success"
-            />
-          ) : (
-            <Status
-              text="Agotado"
-              icon={MdClose}
-              variant="error"
-            />
-          )}
+          <Status
+            text={row.getValue("stock") as number > 0 ? "Disponible" : "Agotado"}
+            icon={row.getValue("stock") as number > 0 ? MdDone : MdClose}
+            variant={row.getValue("stock") as number > 0 ? "success" : "error"}
+          />
         </div>
       ),
     },
@@ -111,7 +99,7 @@ export function DataTableDemo({ products }: AdminProductsProps) {
         return (
           <div className="flex justify-center items-center gap-2">
             <Button variant="outline" size="icon"
-              onClick={() => handleToggleStock(row.getValue("id"), row.getValue("inStock"))}
+              onClick={() => handleToggleStock(row.getValue("id"), row.getValue("stock"))}
             >
               <LoopIcon className="h-4 w-4" />
             </Button>
@@ -132,10 +120,10 @@ export function DataTableDemo({ products }: AdminProductsProps) {
     },
   ]
 
-  const handleToggleStock = useCallback((id: string, inStock: boolean) => {
+  const handleToggleStock = useCallback((id: string, stock: number) => {
     toast.info("actualizando stock...")
 
-    axios.put(`/api/products`, { id, inStock: !inStock })
+    axios.put(`/api/products`, { id, stock })
       .then(() => {
         toast.success("Stock actualizado")
         router.refresh()
@@ -143,7 +131,6 @@ export function DataTableDemo({ products }: AdminProductsProps) {
       .catch((err) => {
         toast.error(err.message)
       })
-
   }, [router])
 
   const handleDelete = useCallback(async (id: string, image: any) => {

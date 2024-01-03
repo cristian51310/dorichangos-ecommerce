@@ -1,24 +1,23 @@
 "use client"
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { UploadFileIcon, uploadFileContainer } from "@/components/uploadFileIcon"
 import { firebaseImageUpload } from "@/lib/firebaseImageUpload"
-import { categorySchema } from "@/validations/categorySchema"
+import { bannerSchema } from "@/validations/bannerSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import { ImageIcon } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
-type CategoryFormValues = z.infer<typeof categorySchema>
+type BannerFormValues = z.infer<typeof bannerSchema>
 
 export default function AddCategoryForm() {
   const router = useRouter()
@@ -26,27 +25,24 @@ export default function AddCategoryForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
-  const form = useForm<CategoryFormValues>({
-    resolver: zodResolver(categorySchema),
+  const form = useForm<BannerFormValues>({
     mode: "onChange",
   })
 
-  async function onSubmit(data: CategoryFormValues) {
+  async function onSubmit(data: BannerFormValues) {
     setIsLoading(true)
 
     try {
       toast.info("Subiendo imagen...");
-      const uploadedImage = await firebaseImageUpload(data.image[0], "categories");
+      const uploadedImage = await firebaseImageUpload(data.image[0], "banners");
 
-      const categoryData = {
-        name: data.name,
-        description: data.description,
+      const bannerData = {
         image: uploadedImage.url,
       };
 
-      await axios.post("/api/categories", categoryData);
-      toast.success("Categoria creada");
-      router.push("/admin/categories");
+      await axios.post("/api/banners", bannerData);
+      toast.success("Banner creado");
+      router.push("/admin/banners");
     } catch (error) {
       setIsLoading(false);
       toast.error("Algo salió mal");
@@ -60,47 +56,9 @@ export default function AddCategoryForm() {
       <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nombre de la categoria</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormDescription>
-                Este es el nombre de la categoria, debe ser unico.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Descripcion de la categoria</FormLabel>
-              <FormControl>
-                <Textarea
-                  {...field}
-                  className="resize-none"
-                />
-              </FormControl>
-              <FormDescription>
-                Este es el nombre de la categoria, debe ser unico.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="image"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Imagen de la categoria</FormLabel>
               <FormControl>
                 <div className="flex items-center justify-center gap-5">
                   <Label className={uploadFileContainer}>
@@ -108,6 +66,7 @@ export default function AddCategoryForm() {
                     <Input
                       type="file"
                       className="hidden"
+                      accept="image/jpeg, image/png, image/webp"
                       name={field.name}
                       onChange={(e) => {
                         field.onChange(e.target.files);
@@ -138,9 +97,8 @@ export default function AddCategoryForm() {
 
         <Button className="my-3" disabled={isLoading}>
           {isLoading && (<Icons.spinner className="mr-2 h-4 w-4 animate-spin" />)}
-          Agregar Categoria
+          Agregar Promocional
         </Button>
-
       </form>
     </Form>
   )

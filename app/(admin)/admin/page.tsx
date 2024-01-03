@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Administrador | Ring!",
-  description: "Administrador de Ring!",
+  title: "Administrador | Dorichangos!",
+  description: "Administrador de Dorichangos!",
 }
 
 export default async function MainPage() {
