@@ -10,10 +10,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { UploadFileIcon, uploadFileContainer } from "@/components/uploadFileIcon"
 import { firebaseImageUpload } from "@/lib/firebaseImageUpload"
 import { productSchema } from "@/validations/productSchema"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Category } from "@prisma/client"
+import { Category, Product } from "@prisma/client"
 import axios from "axios"
-import { ImageIcon } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -23,13 +21,26 @@ import { z } from "zod"
 
 type ProductFormValues = z.infer<typeof productSchema>
 
-export default function AddProductForm({ categories }: { categories: Category[] }) {
+interface Props {
+  categories: Category[]
+  product: Product
+}
+
+export default function EditProductForm({ categories, product }: Props) {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
   const form = useForm<ProductFormValues>({
-    resolver: zodResolver(productSchema),
+    defaultValues: {
+      name: product.name,
+      description: product.description,
+      image: product.image,
+      stock: product.stock.toString(),
+      price: product.price.toString(),
+      category: product.categoryIDs[0]
+    },
     mode: "onChange",
   })
 
@@ -37,20 +48,25 @@ export default function AddProductForm({ categories }: { categories: Category[] 
     setIsLoading(true)
 
     try {
-      toast.info("Subiendo imagen...");
-      const uploadedImage = await firebaseImageUpload(data.image[0], "products");
+      let uploadedImage = data.image;
+
+      if (selectedImage) {
+        toast.info("Subiendo imagen...");
+        uploadedImage = await firebaseImageUpload(data.image[0], "products");
+      }
 
       const categoryData = {
+        id: product.id,
         name: data.name,
         description: data.description,
+        image: selectedImage ? uploadedImage.url : data.image,
         price: data.price,
-        image: uploadedImage.url,
         stock: data.stock,
         categoryID: data.category,
       };
 
-      await axios.post("/api/products", categoryData);
-      toast.success("Producto creado");
+      await axios.put("/api/products", categoryData);
+      toast.success("Producto Actualizado");
       router.push("/admin/products");
     } catch (error) {
       setIsLoading(false);
@@ -59,8 +75,6 @@ export default function AddProductForm({ categories }: { categories: Category[] 
       setIsLoading(false);
     }
   }
-
-  const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
   return (
     <>
@@ -178,7 +192,7 @@ export default function AddProductForm({ categories }: { categories: Category[] 
             name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Imagen del Producto</FormLabel>
+                <FormLabel>Imagen del menu</FormLabel>
                 <FormControl>
                   <div className="flex items-center justify-center gap-5">
                     <Label className={uploadFileContainer}>
@@ -195,19 +209,13 @@ export default function AddProductForm({ categories }: { categories: Category[] 
                         ref={field.ref}
                       />
                     </Label>
-                    {selectedImage ? (
-                      <Image
-                        src={URL.createObjectURL(selectedImage)}
-                        alt="Selected"
-                        width={200}
-                        height={200}
-                        className="rounded-md object-cover w-40 h-40 border-2"
-                      />
-                    ) : (
-                      <div className="grid place-items-center w-40 h-40 bg-pink-100/30 rounded-md border-2">
-                        <ImageIcon size={56} className="text-neutral-500" />
-                      </div>
-                    )}
+                    <Image
+                      src={selectedImage ? URL.createObjectURL(selectedImage) : product.image}
+                      alt="Product Image"
+                      width={200}
+                      height={200}
+                      className="rounded-md object-cover w-40 h-40 border-2"
+                    />
                   </div>
                 </FormControl>
                 <FormMessage />
@@ -217,7 +225,7 @@ export default function AddProductForm({ categories }: { categories: Category[] 
 
           <Button className="my-3">
             {isLoading && (<Icons.spinner className="mr-2 h-4 w-4 animate-spin" />)}
-            Agregar Producto
+            Actualizar Producto
           </Button>
 
         </form >

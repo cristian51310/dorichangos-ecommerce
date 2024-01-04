@@ -2,8 +2,8 @@ import prisma from "@/lib/prismadb"
 
 export default async function getCategories() {
   try {
-    const orders = await prisma.category.findMany()
-    return orders
+    const categories = await prisma.category.findMany()
+    return categories
   } catch (err: any) {
     throw new Error(err)
   }

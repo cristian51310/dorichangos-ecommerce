@@ -31,7 +31,7 @@ export function CartSheet() {
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="w-full md:max-w-xl">
+      <SheetContent className="w-full md:max-w-lg">
         <SheetHeader>
           <SheetTitle>Carrito de compras</SheetTitle>
           <SheetDescription>
@@ -50,7 +50,7 @@ export function CartSheet() {
             <div className="grid gap-4 py-4">
               {cartProducts.map((product) => (
                 <Card key={product.id} className="p-3 flex gap-3">
-                  <div className="relative w-[90px] aspect-square">
+                  <div className="relative w-[120px] aspect-square">
                     <Image
                       src={product.image}
                       alt={product.name}
@@ -58,7 +58,7 @@ export function CartSheet() {
                       className="object-cover rounded-md w-20 h-20"
                     />
                   </div>
-                  <div className="flex flex-col gap-3">
+                  <div className="flex gap-3 justify-between w-full">
                     <div>
                       <p>{truncateText(product.name)}</p>
                       <p className="font-bold text-sm">{formatPrice(product.price)}</p>
@@ -66,7 +66,6 @@ export function CartSheet() {
 
                     <div>
                       <SetQuantity
-                        cartCounter
                         cartProduct={product}
                         handleQtyDecrement={() => handleCartQtyDecrement(product)}
                         handleQtyIncrement={() => handleCartQtyIncrease(product)}
@@ -78,7 +77,7 @@ export function CartSheet() {
             </div>
 
             <SheetClose asChild>
-              <Link href="/checkout">
+              <Link href="/home/checkout">
                 <Button>
                   Continuar con el pago
                 </Button>

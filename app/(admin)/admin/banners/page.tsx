@@ -12,7 +12,6 @@ export default async function ManageCategoriesPage() {
     <>
       <div className="flex flex-col md:flex-row justify-between md:items-center items-start">
         <h1 className="text-xl font-bold mb-4">Administrar Promocionales</h1>
-
         <Link
           className={cn(
             buttonVariants({ variant: "default" }),
@@ -23,6 +22,10 @@ export default async function ManageCategoriesPage() {
           <IoAddCircleOutline className="mr-2 w-4 h-4" />
           Agregar promocional
         </Link>
+      </div>
+
+      <div className="mt-6">
+        La mejor forma de poner promocionales es con una imagen de 1500x500, esto es decir que la relacion de aspecto al menos debe ser 3:1
       </div>
 
       {!banners || banners.length === 0 ? (

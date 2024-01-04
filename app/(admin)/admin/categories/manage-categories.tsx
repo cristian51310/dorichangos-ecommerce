@@ -1,5 +1,5 @@
 "use client"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Category } from "@prisma/client"
 import { LoopIcon } from "@radix-ui/react-icons"
@@ -59,10 +59,11 @@ export const columns: ColumnDef<Category>[] = [
           >
             <LoopIcon className="h-4 w-4" />
           </Button>
-          <Link href={`/admin/categories/edit/${row.getValue("id")}`}>
-            <Button variant="outline" size="icon" >
-              <EditIcon className="h-4 w-4" />
-            </Button>
+          <Link
+            className={buttonVariants({ variant: "outline", size: "icon" })}
+            href={`/admin/categories/edit/${row.getValue("id")}`}
+          >
+            <EditIcon className="h-4 w-4" />
           </Link>
           <Button variant="outline" size="icon"
             onClick={() => toast.warning("Borrando ...")}

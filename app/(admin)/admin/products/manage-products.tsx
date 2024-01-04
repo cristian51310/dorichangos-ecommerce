@@ -4,19 +4,17 @@ import { Button, buttonVariants } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import firebaseApp from "@/lib/firebase"
 import { formatPrice } from "@/lib/formatPrice"
 import { cn } from "@/lib/utils"
 import { Product } from "@prisma/client"
-import { EyeOpenIcon, LoopIcon } from "@radix-ui/react-icons"
+import { CubeIcon, EyeOpenIcon } from "@radix-ui/react-icons"
 import {
   ColumnDef, ColumnFiltersState, SortingState, VisibilityState,
   flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
   getSortedRowModel, useReactTable,
 } from "@tanstack/react-table"
 import axios from "axios"
-import { deleteObject, getStorage, ref } from "firebase/storage"
-import { ArrowUpDown, ChevronDown, TrashIcon } from "lucide-react"
+import { ArrowUpDown, ChevronDown, Edit3Icon, TrashIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -26,7 +24,6 @@ import { toast } from "sonner"
 
 export function DataTableDemo({ products }: { products: Product[] }) {
   const router = useRouter()
-  const storage = getStorage(firebaseApp)
 
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -76,20 +73,14 @@ export function DataTableDemo({ products }: { products: Product[] }) {
       ),
     },
     {
-      accessorKey: "category",
-      header: "Categoria",
-    },
-    {
       accessorKey: "stock",
       header: "Disponible",
       cell: ({ row }) => (
-        <div className="font-semibold">
-          <Status
-            text={row.getValue("stock") as number > 0 ? "Disponible" : "Agotado"}
-            icon={row.getValue("stock") as number > 0 ? MdDone : MdClose}
-            variant={row.getValue("stock") as number > 0 ? "success" : "error"}
-          />
-        </div>
+        <Status
+          text={row.getValue("stock") as number > 0 ? `Disponible ${row.getValue("stock")}` : "Agotado"}
+          icon={row.getValue("stock") as number > 0 ? MdDone : MdClose}
+          variant={row.getValue("stock") as number > 0 ? "success" : "error"}
+        />
       ),
     },
     {
@@ -99,15 +90,21 @@ export function DataTableDemo({ products }: { products: Product[] }) {
         return (
           <div className="flex justify-center items-center gap-2">
             <Button variant="outline" size="icon"
-              onClick={() => handleToggleStock(row.getValue("id"), row.getValue("stock"))}
+              onClick={() => toast.info("En desarrollo")}
             >
-              <LoopIcon className="h-4 w-4" />
+              <CubeIcon className="h-4 w-4" />
             </Button>
             <Button variant="outline" size="icon"
               onClick={() => handleDelete(row.getValue("id"), row.getValue("image"))}
             >
               <TrashIcon className="h-4 w-4" />
             </Button>
+            <Link
+              href={`/admin/products/edit/${row.getValue("id")}`}
+              className={cn(buttonVariants({ variant: "outline", size: "icon" }))}
+            >
+              <Edit3Icon className="h-4 w-4" />
+            </Link>
             <Link
               href={`/admin/products/${row.getValue("id")}`}
               className={cn(buttonVariants({ variant: "outline", size: "icon" }))}
@@ -120,35 +117,8 @@ export function DataTableDemo({ products }: { products: Product[] }) {
     },
   ]
 
-  const handleToggleStock = useCallback((id: string, stock: number) => {
-    toast.info("actualizando stock...")
-
-    axios.put(`/api/products`, { id, stock })
-      .then(() => {
-        toast.success("Stock actualizado")
-        router.refresh()
-      })
-      .catch((err) => {
-        toast.error(err.message)
-      })
-  }, [router])
-
   const handleDelete = useCallback(async (id: string, image: any) => {
     toast.info("Borrando producto...")
-
-    const handleImageDelete = async () => {
-      try {
-        if (image) {
-          const imageRef = ref(storage, image)
-          await deleteObject(imageRef)
-        }
-      } catch (err: any) {
-        console.log(err.message)
-      }
-    }
-
-    await handleImageDelete()
-
     axios.post(`/api/products/delete`, { id })
       .then(() => {
         toast.success("Producto Borrado")
@@ -157,9 +127,7 @@ export function DataTableDemo({ products }: { products: Product[] }) {
       .catch((err) => {
         toast.error(err.message)
       })
-
-  }, [router, storage])
-
+  }, [router])
 
   const table = useReactTable({
     data: dataProducts,

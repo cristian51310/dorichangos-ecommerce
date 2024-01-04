@@ -21,11 +21,8 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
         categories={categories}
         className="md:hidden"
       />
-      <div className="flex flex-col">
-        <div className="flex-1 space-y-5 p-8 px-6 md:px-40 pt-6">
-          {children}
-        </div>
-      </div>
+
+      {children}
       <Footer />
     </CartProvider>
   )

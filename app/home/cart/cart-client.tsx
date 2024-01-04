@@ -41,7 +41,7 @@ export default function CartClient({ user }: CartClientProps) {
           <CartItem key={product.id} item={product} />
         ))}
       </div>
-      <div className=" border-t border-slate-200 py-4 flex justify-between gap-4">
+      <div className=" border-t border-slate-200 py-4 flex md:flex-row flex-col justify-between gap-4">
         <div className="max-w-[200px]">
           <Button
             onClick={() => handleClearCart()}
@@ -59,7 +59,7 @@ export default function CartClient({ user }: CartClientProps) {
           </div>
           <p className="mb-3">Tarifas e impuestos se calculan en el checkout</p>
           <Button
-            variant={!user ? "outline" : "secondary"}
+            variant="default"
             className="w-full"
             onClick={() => {
               if (user) router.push("/checkout")

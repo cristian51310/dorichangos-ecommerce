@@ -30,8 +30,8 @@ export function DataTableDemo({ banners }: { banners: Banner[] }) {
             <Image
               src={banner.image}
               alt="Picture of the author"
-              width={960}
-              height={480}
+              width={1500}
+              height={500}
               className="rounded-xl"
             />
             <Button

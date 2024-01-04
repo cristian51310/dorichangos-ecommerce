@@ -90,7 +90,6 @@ type CartProductType {
   id          String
   name        String
   description String
-  category    String
   image       String
   quantity    Int
   price       Float

@@ -61,6 +61,7 @@ export const CartContextProvider = (props: Props) => {
   }, [cartProducts])
 
   const handleAddToCart = useCallback((product: CartProductType) => {
+    toast.success('Producto agregado al carrito')
     setCartProducts((prev) => {
       let updatedCart
 
@@ -80,6 +81,7 @@ export const CartContextProvider = (props: Props) => {
       const filteredProducts = cartProducts.filter(item => item.id !== product.id)
       setCartProducts(filteredProducts)
       localStorage.setItem('cart', JSON.stringify(filteredProducts))
+      toast.success('Producto eliminado')
     }
   }, [cartProducts])
 
@@ -131,6 +133,7 @@ export const CartContextProvider = (props: Props) => {
     setCartProducts(null)
     setCartTotalQty(0)
     localStorage.removeItem('cart')
+    toast.error('Carrito limpiado')
   }, [])
 
   const handleSetPaymentIntent = useCallback(

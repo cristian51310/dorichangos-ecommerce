@@ -40,17 +40,17 @@ export default function EditCategoryForm({ category }: { category: Category }) {
     try {
       toast.info("Subiendo imagen...");
 
-      let image = data.image;
+      let uploadedImage = data.image;
 
       if (selectedImage) {
-        image = await firebaseImageUpload(data.image[0], "categories");
+        uploadedImage = await firebaseImageUpload(data.image[0], "categories");
       }
 
       const categoryData = {
         id: category.id,
         name: data.name,
         description: data.description,
-        image: image,
+        image: selectedImage ? uploadedImage.url : data.image,
       };
 
       await axios.put("/api/categories", categoryData);

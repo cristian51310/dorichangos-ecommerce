@@ -1,12 +1,9 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
+  CarouselItem
 } from "@/components/ui/carousel"
 import { Banner } from "@prisma/client"
 import Autoplay from "embla-carousel-autoplay"
@@ -16,7 +13,7 @@ export default function CustomCarrousel({ banners }: { banners: Banner[] | null 
   if (!banners) return null
 
   return (
-    <div className="w-full flex justify-center items-center">
+    <div className="w-full flex justify-center items-center z-0 relative">
       <Carousel
         className="w-full"
         plugins={[
@@ -25,23 +22,19 @@ export default function CustomCarrousel({ banners }: { banners: Banner[] | null 
           }),
         ]}
       >
-        <CarouselContent className="-ml-1">
+        <CarouselContent>
           {banners.map((banner) => (
-            <CarouselItem key={banner.id} className="pl-3 md:basis-1/2 lg:basis-1/3">
-              <Card className="flex aspect-video rounded-xl overflow-hidden bg-cover">
-                <Image
-                  src={banner.image}
-                  alt="banner"
-                  width={960}
-                  height={480}
-                  className=" bg-cover "
-                />
-              </Card>
+            <CarouselItem className="" key={banner.id}>
+              <Image
+                src={banner.image}
+                alt="banner"
+                width={1500}
+                height={500}
+                className="bg-cover w-full md:h-full h-48"
+              />
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
       </Carousel>
     </div>
   )

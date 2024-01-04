@@ -1,4 +1,4 @@
-import getProducts from "@/actions/getAllProducts"
+import getProducts from "@/actions/getProducts"
 import Link from "next/link"
 import { DataTableDemo } from "./manage-products"
 import { buttonVariants } from "@/components/ui/button"

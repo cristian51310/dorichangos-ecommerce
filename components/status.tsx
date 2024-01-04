@@ -10,7 +10,7 @@ interface StatusProps {
 export default function Status({ text, icon: Icon, variant = "success" }: StatusProps) {
   return (
     <div className={clsx(
-      `flex items-center justify-center rounded-full px-2 py-1`,
+      `flex items-center justify-center rounded-full px-1 py-1`,
       variant === "success" && "bg-green-200 text-green-800",
       variant === "error" && "bg-red-200 text-red-800",
       variant === "warning" && "bg-yellow-200 text-yellow-800",

@@ -5,6 +5,7 @@ import { useCart } from "@/hooks/useCart"
 import { formatPrice } from "@/lib/formatPrice"
 import { truncateText } from "@/lib/truncateText"
 import { CartProductType } from "@/types/cart-pruduct-type"
+import { Trash2Icon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { toast } from "sonner"
@@ -42,7 +43,7 @@ export default function CartItem({ item }: ItemContentProps) {
                 toast.success('Producto eliminado')
               }}
             >
-              Eliminar
+              <Trash2Icon size={16}/>
             </Button>
           </div>
         </div>
@@ -52,7 +53,6 @@ export default function CartItem({ item }: ItemContentProps) {
       </div>
       <div className="justify-self-center">
         <SetQuantity
-          cartCounter
           cartProduct={item}
           handleQtyDecrement={() => handleCartQtyDecrement(item)}
           handleQtyIncrement={() => handleCartQtyIncrease(item)}

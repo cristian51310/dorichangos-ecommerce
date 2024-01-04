@@ -9,12 +9,9 @@ import { useCallback, useEffect, useState } from "react"
 import { MdCheckCircle } from "react-icons/md"
 import { toast } from "sonner"
 import Image from "next/image"
+import { Product } from "@prisma/client"
 
-interface ProductDetailProps {
-  product: any
-}
-
-export default function ProductDetail({ product }: ProductDetailProps){
+export default function ProductDetail({ product }: {product: Product}){
   const router = useRouter()
   const { cartProducts, handleAddToCart } = useCart()
   const [isProductInCart, setIsProductInCart] = useState<Boolean>(false)
@@ -23,7 +20,6 @@ export default function ProductDetail({ product }: ProductDetailProps){
     id: product.id,
     name: product.name,
     description: product.description,
-    category: product.category,
     image: product.image,
     quantity: 1,
     price: product.price,
@@ -70,13 +66,13 @@ export default function ProductDetail({ product }: ProductDetailProps){
           {product.name}
         </h2>
 
-        <Separator className="my-4" />
+        <Separator className="my-6" />
 
         <p className="text-left leading-7 text-foreground">
           {product.description}
         </p>
 
-        <Separator />
+        <Separator className="my-6" />
 
         {isProductInCart ? (
           <>
@@ -85,12 +81,11 @@ export default function ProductDetail({ product }: ProductDetailProps){
               Producto añadido a tu carrito
             </p>
 
-            <Separator />
+            <Separator className="my-4" />
 
             <Button
-              className="my-2"
               variant={"outline"}
-              onClick={() => router.push('/cart')}
+              onClick={() => router.push('/home/cart')}
             >
               Ir al carrito
             </Button>
@@ -102,10 +97,10 @@ export default function ProductDetail({ product }: ProductDetailProps){
               handleQtyIncrement={handleQtyIncrement}
               handleQtyDecrement={handleQtyDecrement}
             />
-            <Separator />
+            
+            <Separator className="my-7" />
 
             <Button
-              className="my-2"
               disabled={product.stock === 0}
               onClick={() => {
                 handleAddToCart(cartProduct)
