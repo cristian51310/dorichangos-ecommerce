@@ -1,12 +1,14 @@
-import getCategories from "@/actions/getCategories"
+import getMuseumDates from "@/actions/getMuseumDates"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { IoAddCircleOutline } from "react-icons/io5"
-import { DataTableDemo } from "./manage-categories"
+import { DataTableDemo } from "./manage-days"
 
 export default async function ManageCategoriesPage() {
-  const categories = await getCategories()
+  const museumDates = await getMuseumDates()
+
+  console.log(museumDates)
 
   return (
     <>
@@ -24,7 +26,8 @@ export default async function ManageCategoriesPage() {
           Agregar reservaciones
         </Link>
       </div>
-      <DataTableDemo categories={categories} />
+
+      <DataTableDemo museumDates={museumDates} />
     </>
   )
 }

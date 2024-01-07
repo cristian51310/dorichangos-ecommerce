@@ -1,91 +1,45 @@
 "use client"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Category } from "@prisma/client"
-import { LoopIcon } from "@radix-ui/react-icons"
+import { MuseumDate } from "@prisma/client"
 import {
   ColumnDef, ColumnFiltersState, SortingState, VisibilityState,
   flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
   getSortedRowModel, useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, EditIcon, TrashIcon } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
+import { ArrowUpDown } from "lucide-react"
 import { useState } from "react"
-import { toast } from "sonner"
+import { formatDate } from "@/lib/formatDate"
 
-export const columns: ColumnDef<Category>[] = [
+export const columns: ColumnDef<MuseumDate>[] = [
   {
     accessorKey: "id",
-    header: () => (<div className="hidden" />),
-    cell: () => (<div className="hidden" />)
   },
   {
-    accessorKey: "image",
-    header: "Imagen",
-    cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <Image
-          src={row.getValue("image")}
-          alt={row.getValue("name")}
-          width={60}
-          height={60}
-          className="w-20 h-20 object-cover rounded-md"
-        />
-      </div>
-    ),
-  },
-  {
-    accessorKey: "name",
+    accessorKey: "date",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Nombre
+        Fecha
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-    cell: ({ row }) => <div>{row.getValue("name")}</div>,
-  },
-  {
-    id: "actions",
-    header: () => <div className="text-center">Acciones</div>,
-    cell: ({ row }) => {
-      return (
-        <div className="flex justify-center items-center gap-4">
-          <Button variant="outline" size="icon"
-            onClick={() => toast.success("Stock actualizado")}
-          >
-            <LoopIcon className="h-4 w-4" />
-          </Button>
-          <Link
-            className={buttonVariants({ variant: "outline", size: "icon" })}
-            href={`/admin/categories/edit/${row.getValue("id")}`}
-          >
-            <EditIcon className="h-4 w-4" />
-          </Link>
-          <Button variant="outline" size="icon"
-            onClick={() => toast.warning("Borrando ...")}
-          >
-            <TrashIcon className="h-4 w-4" />
-          </Button>
-        </div>
-      )
-    },
+    cell: ({ row }) => <div>{formatDate(row.getValue("date"))}</div>,
   },
 ]
 
-export function DataTableDemo({ categories }: { categories: Category[] }) {
+export function DataTableDemo({ museumDates }: { museumDates: MuseumDate[] }) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
-  const dataCategories = categories
+  const dataMuseumDates = museumDates
 
   const table = useReactTable({
-    data: dataCategories,
+    data: dataMuseumDates,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

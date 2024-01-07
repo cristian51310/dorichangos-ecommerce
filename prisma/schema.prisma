@@ -86,6 +86,21 @@ model Banner {
   image String
 }
 
+model MuseumDate {
+  id      String       @id @default(auto()) @map("_id") @db.ObjectId
+  date    DateTime
+  hours   MuseumHour[]
+}
+
+model MuseumHour {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  hour         String
+  available    Int        @default(5)
+  price        Float      @default(3500)
+  museumDateId String     @db.ObjectId
+  museumDate   MuseumDate @relation(fields: [museumDateId], references: [id])
+}
+
 type CartProductType {
   id          String
   name        String
