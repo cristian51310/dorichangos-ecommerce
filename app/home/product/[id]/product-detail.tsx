@@ -51,7 +51,7 @@ export default function ProductDetail({ product }: {product: Product}){
     <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
 
       <div className="grid grid-cols-5 gap-2 h-full max-h-[500px] min-h-[300px] sm:min-h-[400px]">
-        <div className="col-span-5 relative aspect-square">
+        <div className="col-span-5 relative">
           <Image
             src={product.image}
             alt={product.name}
@@ -84,7 +84,7 @@ export default function ProductDetail({ product }: {product: Product}){
             <Separator className="my-4" />
 
             <Button
-              variant={"outline"}
+              variant="secondary"
               onClick={() => router.push('/home/cart')}
             >
               Ir al carrito

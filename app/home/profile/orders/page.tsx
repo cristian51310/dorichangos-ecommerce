@@ -1,7 +1,8 @@
-import NullData from "@/components/null-data";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import getOrdersByUserId from "@/actions/getOrdersByUser";
-import OrdersClient from "./orders-client";
+import NullData from "@/components/null-data";
+import Section from "@/components/section";
+import { OrdersClient } from "./orders-client";
 
 export default async function OrdersPage() {
   const user = await getCurrentUser()
@@ -13,9 +14,8 @@ export default async function OrdersPage() {
   if (!orders) return <NullData title="No hay ordenes" />
 
   return (
-    <div>
-      <h1 className="text-xl font-bold mb-4">Administrar Ordenes</h1>
+    <Section title="Mis ordenes" className=" min-h-[70vh]">
       <OrdersClient orders={orders} />
-    </div>
+    </Section>
   )
 }

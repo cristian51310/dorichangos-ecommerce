@@ -133,7 +133,6 @@ export const CartContextProvider = (props: Props) => {
     setCartProducts(null)
     setCartTotalQty(0)
     localStorage.removeItem('cart')
-    toast.error('Carrito limpiado')
   }, [])
 
   const handleSetPaymentIntent = useCallback(

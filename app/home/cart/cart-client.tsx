@@ -62,7 +62,7 @@ export default function CartClient({ user }: CartClientProps) {
             variant="default"
             className="w-full"
             onClick={() => {
-              if (user) router.push("/checkout")
+              if (user) router.push("/home/checkout")
               else router.push("/signin")
             }}
           >

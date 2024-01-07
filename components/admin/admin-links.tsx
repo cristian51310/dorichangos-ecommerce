@@ -4,6 +4,7 @@ import {
   IoCalculatorOutline,
   IoCalendarOutline,
   IoHeartOutline,
+  IoMusicalNoteSharp,
   IoNotificationsOutline,
   IoPizzaOutline,
   IoReceiptOutline
@@ -41,6 +42,11 @@ export const adminLinks = [
     href: "/admin/banners",
     icon: IoHeartOutline,
     label: "Promocionales"
+  },
+  {
+    href: "/admin/museum",
+    icon: IoMusicalNoteSharp,
+    label: "Museo"
   },
   {
     href: "/admin/reservations",

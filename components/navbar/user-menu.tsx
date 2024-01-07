@@ -28,14 +28,14 @@ export function UserMenu({ user }: UserMenuProps) {
 
       {user ? (
         <DropdownMenuContent className="w-56" align="end" forceMount>
-          <Link href="/profile">
-            <DropdownMenuItem>
-              Mi Perfil
-            </DropdownMenuItem>
-          </Link>
-          <Link href="/orders">
+          <Link href="/home/profile/orders">
             <DropdownMenuItem>
               Mis Ordenes
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/home/profile/reservations">
+            <DropdownMenuItem>
+              Mis Reservaciones
             </DropdownMenuItem>
           </Link>
           {user.role === "ADMIN" && (

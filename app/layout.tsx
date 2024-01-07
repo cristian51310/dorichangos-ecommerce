@@ -1,11 +1,11 @@
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/providers/theme-provider'
 import type { Metadata } from 'next'
-import { Inter as FontSans } from "next/font/google"
-import './globals.css'
+import { Onest as FontSans } from "next/font/google"
 import { Toaster } from 'sonner'
+import './globals.css'
 
-export const fontSans = FontSans({
+const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 })
@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           enableSystem
           disableTransitionOnChange
         >
-          <Toaster 
+          <Toaster
             richColors
           />
           {children}
