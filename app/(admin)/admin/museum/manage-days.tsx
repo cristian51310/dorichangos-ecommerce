@@ -1,15 +1,18 @@
 "use client"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { formatDate } from "@/lib/formatDate"
+import { cn } from "@/lib/utils"
 import { MuseumDate } from "@prisma/client"
+import { EyeOpenIcon } from "@radix-ui/react-icons"
 import {
   ColumnDef, ColumnFiltersState, SortingState, VisibilityState,
   flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
   getSortedRowModel, useReactTable,
 } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
+import Link from "next/link"
 import { useState } from "react"
-import { formatDate } from "@/lib/formatDate"
 
 export const columns: ColumnDef<MuseumDate>[] = [
   {
@@ -27,6 +30,22 @@ export const columns: ColumnDef<MuseumDate>[] = [
       </Button>
     ),
     cell: ({ row }) => <div>{formatDate(row.getValue("date"))}</div>,
+  },
+  {
+    id: "actions",
+    header: "Acciones",
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/admin/museum/${row.getValue("id")}`}
+            className={cn(buttonVariants({ variant: "outline", size: "icon" }))}
+          >
+            <EyeOpenIcon className="h-4 w-4" />
+          </Link>
+        </div>
+      )
+    },
   },
 ]
 
@@ -105,11 +124,6 @@ export function DataTableDemo({ museumDates }: { museumDates: MuseumDate[] }) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} categorias registradas
-        </div>
-
         <div className="space-x-2">
           <Button
             variant="outline"

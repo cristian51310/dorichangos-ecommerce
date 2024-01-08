@@ -1,20 +1,24 @@
 "use client"
+
 import { useCart } from "@/hooks/useCart"
 import { formatPrice } from "@/lib/formatPrice"
 import { cn } from "@/lib/utils"
 import { CartProductType } from "@/types/cart-pruduct-type"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 import { Button } from "../ui/button"
 import { Card } from "../ui/card"
 
-interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   data: any
 }
 
-export function ProductCard({ data, className }: ProductCardProps) {
+export function ProductCard({ data, className }: Props) {
   const router = useRouter()
-  const { handleAddToCart } = useCart()
+  const { handleAddToCart, cartProducts } = useCart()
+
+  const [isProductInCart, setIsProductInCart] = useState(false)
 
   const cartProduct: CartProductType = ({
     id: data.id,
@@ -24,6 +28,14 @@ export function ProductCard({ data, className }: ProductCardProps) {
     quantity: 1,
     price: data.price,
   })
+
+  useEffect(() => {
+    setIsProductInCart(false)
+    if (cartProducts) {
+      const existingId = cartProducts.findIndex(item => item.id === data.id)
+      if (existingId > -1) { setIsProductInCart(true) }
+    }
+  }, [cartProducts, data.id])
 
   return (
     <Card
@@ -57,12 +69,21 @@ export function ProductCard({ data, className }: ProductCardProps) {
           </p>
         </div>
 
-        <Button
-          onClick={() => handleAddToCart(cartProduct)}
-          className="w-full"
-        >
-          Agregar al carrito
-        </Button>
+        {isProductInCart ? (
+          <Button
+            onClick={() => router.push("/home/cart")}
+            className="w-full bg-blue-400"
+          >
+            Ver carrito
+          </Button>
+        ) : (
+          <Button
+            onClick={() => handleAddToCart(cartProduct)}
+            className="w-full"
+          >
+            Agregar al carrito
+          </Button>
+        )}
       </div>
 
     </Card>

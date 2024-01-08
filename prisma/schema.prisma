@@ -35,17 +35,18 @@ model Account {
 }
 
 model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
   name           String?
-  email          String?   @unique
+  email          String?       @unique
   emailVerified  DateTime?
   image          String?
   hashedPassword String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  role           Role      @default(CUSTOMER)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  role           Role          @default(CUSTOMER)
   accounts       Account[]
   orders         Order[]
+  reservations   Reservation[]
 }
 
 model Product {
@@ -81,15 +82,28 @@ model Order {
   user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Reservation {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String   @db.ObjectId
+  amount          Float
+  currency        String
+  createDate      DateTime @default(now())
+  paymentIntentId String   @unique
+  reservationDate DateTime
+  reservationHour String
+  quantity        Int
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model Banner {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   image String
 }
 
 model MuseumDate {
-  id      String       @id @default(auto()) @map("_id") @db.ObjectId
-  date    DateTime
-  hours   MuseumHour[]
+  id    String       @id @default(auto()) @map("_id") @db.ObjectId
+  date  DateTime
+  hours MuseumHour[]
 }
 
 model MuseumHour {

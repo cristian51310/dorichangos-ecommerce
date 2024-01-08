@@ -14,7 +14,7 @@ import { Product } from "@prisma/client"
 export default function ProductDetail({ product }: {product: Product}){
   const router = useRouter()
   const { cartProducts, handleAddToCart } = useCart()
-  const [isProductInCart, setIsProductInCart] = useState<Boolean>(false)
+  const [isProductInCart, setIsProductInCart] = useState(false)
 
   const [cartProduct, setCartProduct] = useState<CartProductType>({
     id: product.id,

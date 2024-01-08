@@ -1,5 +1,6 @@
-import NullData from "@/components/null-data";
 import { getCurrentUser } from "@/actions/getCurrentUser";
+import NullData from "@/components/null-data";
+import Section from "@/components/section";
 import CheckoutClient from "./checkout-client";
 
 export default async function CheckoutPage() {
@@ -10,8 +11,8 @@ export default async function CheckoutPage() {
   )
 
   return (
-    <div className="p-8 md:px-32 lg:px-64 md:pt-10 pt-8">
+    <Section>
       <CheckoutClient />
-    </div>
+    </Section>
   )
 }

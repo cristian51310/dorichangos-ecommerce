@@ -40,7 +40,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ paymentIntent: updated_intent })
     }
   } else {
-
     if (total === 0) {
       return NextResponse.json(
         { error: "El total de la orden no puede ser 0" },

@@ -1,13 +1,13 @@
-import getOrders from "@/actions/getOrders"
+import getReservations from "@/actions/getReservations"
 import { DataTableDemo } from "./manage-orders"
 
 export default async function ManageProductsPage() {
-  const orders = await getOrders()
+  const reservations = await getReservations()
 
   return (
     <>
-      <h1 className="text-xl font-bold mb-4">Administrar Ordenes</h1>
-      <DataTableDemo orders={orders} />
+      <h1 className="text-xl font-bold mb-4">Administrar Reservaciones</h1>
+      <DataTableDemo reservations={reservations} />
     </>
   )
 }

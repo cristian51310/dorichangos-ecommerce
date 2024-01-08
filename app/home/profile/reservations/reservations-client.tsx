@@ -19,7 +19,7 @@ type ExtendedReservation = Reservation & {
   user: User
 }
 
-export function DataTableDemo({ reservations }: ManageOrdersProps) {
+export function ReservationsClient({ reservations }: ManageOrdersProps) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
