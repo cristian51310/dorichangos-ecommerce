@@ -1,4 +1,5 @@
 "use client"
+import Loader from "@/components/loader/loader";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
 import { Elements } from "@stripe/react-stripe-js";
@@ -8,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import CheckoutForm from "./checkout-form";
-import axios from "axios";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string)
 
@@ -78,8 +78,8 @@ export default function CheckoutClient() {
       )}
 
       {loading && (
-        <div className="min-h-[40vh]">
-          <p className="text-2xl text-center">Cargando...</p>
+        <div className="min-h-[60vh]">
+          <Loader />
         </div>
       )}
       {error && (

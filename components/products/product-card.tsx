@@ -72,7 +72,7 @@ export function ProductCard({ data, className }: Props) {
         {isProductInCart ? (
           <Button
             onClick={() => router.push("/home/cart")}
-            className="w-full bg-blue-400"
+            className="w-full bg-blue-400 hover:bg-blue-500"
           >
             Ver carrito
           </Button>
