@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils"
 import { SafeUser } from "@/types"
 import { Category } from "@prisma/client"
+import Header from "./header"
 import Navbar from "./navbar"
 
 interface Props {
@@ -12,8 +13,10 @@ interface Props {
 export default async function NavbarMobile({ className, user, categories }: Props) {
   return (
     <div className={cn(className)}>
-      <Navbar
+      <Header
         user={user}
+      />
+      <Navbar
         categories={categories}
       />
     </div>

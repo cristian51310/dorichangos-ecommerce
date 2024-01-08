@@ -24,7 +24,7 @@ export default async function ProductPage({ params }: { params: IParams }) {
       <Section className="-mt-4" title="Tambien podria gustarte">
         <div>
           {relatedProducts && relatedProducts.length > 0 && (
-            <div className="grid gap-3 md:gap-5 grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-3 md:gap-5 grid-cols-1 lg:grid-cols-4">
               {relatedProducts.map((product) => (
                 <ProductCard key={product.id} data={product} />
               ))}

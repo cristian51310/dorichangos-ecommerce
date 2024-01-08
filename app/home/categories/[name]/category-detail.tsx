@@ -34,7 +34,7 @@ export default function CategoryDetail({ category,products }: Props) {
         </p>
 
         {products.length > 0 && (
-          <div className="grid grid-cols-2 gap-4 md:gap-7">
+          <div className="grid grid-cols-1 gap-4 md:gap-7">
             {products.map((product) => (
               <ProductCard key={product.id} data={product} />
             ))}

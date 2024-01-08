@@ -31,17 +31,17 @@ export default function CartClient({ user }: CartClientProps) {
   return (
     <>
       <div className="grid grid-cols-5 text-base gap-4 pb-3 items-center mt-10">
-        <div className="col-span-2 justify-self-start">Producto</div>
-        <div className="justify-self-center">Precio</div>
-        <div className="justify-self-center">Cantidad</div>
-        <div className="justify-self-end">Total</div>
+        <div className="col-span-2 justify-self-start text-sm font-bold md:text-base">Producto</div>
+        <div className="justify-self-center text-sm font-bold md:text-base">Precio</div>
+        <div className="justify-self-center text-sm font-bold md:text-base">Cantidad</div>
+        <div className="justify-self-end text-sm font-bold md:text-base">Total</div>
       </div>
       <div>
         {cartProducts.map((product) => (
           <CartItem key={product.id} item={product} />
         ))}
       </div>
-      <div className=" border-t border-slate-200 py-4 flex md:flex-row flex-col justify-between gap-4">
+      <div className="border-t border-slate-200 py-4 flex md:flex-row flex-col justify-between gap-4">
         <div className="max-w-[200px]">
           <Button
             onClick={() => handleClearCart()}

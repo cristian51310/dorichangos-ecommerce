@@ -20,7 +20,7 @@ export default function Dropdown({ categories }: { categories: Category[] }) {
 
   return (
     <div
-      className="relative h-12 mt-4 w-[200px] md:w-[270px]"
+      className="relative h-12 mt-4 w-full md:w-[270px]"
       onClick={handleDropdown}
     >
       <AlignLeft size={20} className="absolute top-4 left-4" />
@@ -42,7 +42,7 @@ export default function Dropdown({ categories }: { categories: Category[] }) {
       />
 
       {dropdown ? (
-        <div className="w-[200px] md:w-[270px] bg-neutral-100 border border-pink-700 border-t-0 absolute z-30 rounded-b-xl shadow-sm">
+        <div className="w-full md:w-[270px] bg-neutral-100 border border-pink-700 border-t-0 absolute z-30 rounded-b-xl shadow-sm">
           {categories && categories.map((category) => (
             <div
               key={category.id}

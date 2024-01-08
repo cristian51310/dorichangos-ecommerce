@@ -19,7 +19,7 @@ export default function CartItem({ item }: ItemContentProps) {
 
   return (
     <div className="grid grid-cols-5 text-xs md:text-sm gap-4 border-t border-slate-200 py-4">
-      <div className="col-span-2 justify-self-start flex gap-2 md:gap-4">
+      <div className="col-span-2 justify-self-start flex flex-col md:flex-row gap-2 md:gap-4">
         <Link href={`/product/${item.id}`}>
           <div className="relative w-[90px] aspect-square">
             <Image
@@ -30,7 +30,7 @@ export default function CartItem({ item }: ItemContentProps) {
             />
           </div>
         </Link>
-        <div className="flex flex-col justify-between">
+        <div className="flex flex-col justify-between gap-4">
           <Link href={`/product/${item.id}`}>
             {truncateText(item.name)}
           </Link>
@@ -48,7 +48,7 @@ export default function CartItem({ item }: ItemContentProps) {
           </div>
         </div>
       </div>
-      <div className=" justify-self-center">
+      <div className="justify-self-center">
         {formatPrice(item.price)}
       </div>
       <div className="justify-self-center">

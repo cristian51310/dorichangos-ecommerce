@@ -61,22 +61,22 @@ export default function ProductDetail({ product }: {product: Product}){
         </div>
       </div>
 
-      <div className="flex flex-col gap-1 text-sm">
-        <h2 className="text-4xl font-bold capitalize">
+      <div className="flex flex-col text-sm">
+        <h2 className="text-4xl font-bold capitalize md:mt-0 -mt-5">
           {product.name}
         </h2>
 
-        <Separator className="my-6" />
+        <Separator className="my-3 md:my-6" />
 
         <p className="text-left leading-7 text-foreground">
           {product.description}
         </p>
 
-        <Separator className="my-6" />
+        <Separator className="my-3 md:my-6" />
 
         {isProductInCart ? (
           <>
-            <p className="my-4 text-slate-500 flex items-center gap-3">
+            <p className="md:my-4 my-0 text-slate-500 flex items-center gap-3">
               <MdCheckCircle size={20} className="text-green-500" />
               Producto añadido a tu carrito
             </p>
@@ -98,7 +98,7 @@ export default function ProductDetail({ product }: {product: Product}){
               handleQtyDecrement={handleQtyDecrement}
             />
             
-            <Separator className="my-7" />
+            <Separator className="my-3 md:my-6" />
 
             <Button
               disabled={product.stock === 0}

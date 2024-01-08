@@ -11,20 +11,18 @@ export default async function AuthenticationPage() {
   const user = await getCurrentUser()
 
   return (
-    <div className="lg:p-8 lg:pt-8 pt-2">
-      <div className="mx-auto flex w-[400px] flex-col justify-center space-y-6 sm:w-[350px]">
-        
-        <div className="flex flex-col space-y-2 text-center">
-          <h1 className="text-4xl font-semibold sm:my-5 my-3">
-            Inicia sesion
-          </h1>
-          <p className="text-base text-muted-foreground">
-            Estamos felices de que hayas vuelto
-          </p>
-        </div>
+    <div className="mx-auto flex w-full flex-col justify-center space-y-6 lg:p-8">
 
-        <UserAuthForm user={user} />
+      <div className="flex flex-col space-y-2 text-center">
+        <h1 className="text-3xl md:text-4xl font-bold sm:my-5 my-3">
+          Inicia sesion
+        </h1>
+        <p className="text-base text-muted-foreground">
+          Estamos felices de que hayas vuelto
+        </p>
       </div>
+
+      <UserAuthForm user={user} />
     </div>
   )
 }

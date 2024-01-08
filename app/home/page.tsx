@@ -24,7 +24,7 @@ export default async function Home() {
         <div>
           <h2 className="mb-5 font-bold text-2xl block md:hidden">Sabemos que te encantara</h2>
           {products && products.length > 0 && (
-            <div className="grid gap-3 md:gap-5 grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-3 md:gap-5 grid-cols-1 lg:grid-cols-4">
               {products.map((product) => (
                 <ProductCard key={product.id} data={product} />
               ))}
@@ -36,7 +36,7 @@ export default async function Home() {
       <Section title="¿Se te antoja algo?">
         <div>
           {randomProducts && randomProducts.length > 0 && (
-            <div className="grid gap-3 md:gap-5 grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-3 md:gap-5 grid-cols-1 lg:grid-cols-4">
               {randomProducts.map((product) => (
                 <ProductCard key={product.id} data={product} />
               ))}

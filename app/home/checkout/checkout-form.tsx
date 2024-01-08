@@ -79,7 +79,7 @@ export default function CheckoutForm({ clientSecret, handleSetPaymentSuccess }: 
 
         <Button
           disabled={loading || !stripe || !elements}
-          className="w-full mt-4 py-7"
+          className="w-full mt-4"
         >
           {loading ? "Cargando..." : "Pagar"}
         </Button>

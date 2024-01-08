@@ -51,7 +51,7 @@ export function ProductCard({ data, className }: Props) {
           height={150}
           width={150}
           className={cn(
-            "h-auto w-full object-cover transition-transform hover:scale-105 aspect-square"
+            "h-auto w-full object-cover transition-transform hover:scale-105 aspect-[2.5/1] md:aspect-square"
           )}
         />
       </div>
