@@ -25,13 +25,13 @@ export default function LandingPage() {
       <div className="min-h-screen flex flex-col items-center">
         <Title />
 
-        <h3 className="text-xl lg:text-2xl xl:text-3xl text-pink-700 max-w-3xl md:px-0 px-8 mb-14">
+        <h3 className="text-xl lg:text-2xl xl:text-3xl text-pink-700 max-w-3xl md:px-0 px-6 mb-14">
           Inserte una frase aqui que haga que la gente quiera comprar, puede ser algun eslogan
         </h3>
 
         <LandingButton />
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-5 max-w-5xl mt-12 mb-20 md:px-0 px-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-5 max-w-5xl mt-12 mb-20 md:px-0 px-6">
           {images.map((image, index) => (
             <Image
               id="bento-image"

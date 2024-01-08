@@ -17,6 +17,12 @@
   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+@media (min-width: 768px) {
+  .animated-button {
+    font-size: 16px;
+  }
+}
+
 .animated-button svg {
   position: absolute;
   width: 24px;
