@@ -54,7 +54,6 @@ export async function PUT(request: Request) {
     name,
     description,
     image,
-    stock,
     categoryID,
   } = body
 
@@ -63,7 +62,6 @@ export async function PUT(request: Request) {
     data: {
       name,
       description,
-      stock: parseInt(stock),
       image,
       categories: {
         connect: { id: categoryID }
@@ -83,10 +81,12 @@ export async function PATCH(request: Request) {
 
   const body = await request.json()
 
+  const { id, stock } = body
+
   const product = await prisma.product.update({
-    where: { id: body.id },
+    where: { id },
     data: {
-      stock: body.stock,
+      stock: parseInt(stock),
     }
   })
 

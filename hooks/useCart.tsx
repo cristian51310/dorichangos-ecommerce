@@ -47,10 +47,7 @@ export const CartContextProvider = (props: Props) => {
           acc.qty += item.quantity
 
           return acc
-        }, {
-          total: 0,
-          qty: 0
-        })
+        }, { total: 0, qty: 0 })
 
         setCartTotalQty(qty)
         setCartTotalAmount(total)
@@ -91,6 +88,7 @@ export const CartContextProvider = (props: Props) => {
       updatedCart = [...cartProducts]
 
       const existingIndex = cartProducts.findIndex(item => item.id === product.id)
+      
       if (existingIndex > -1) {
         updatedCart[existingIndex].quantity = parseInt(value)
       }

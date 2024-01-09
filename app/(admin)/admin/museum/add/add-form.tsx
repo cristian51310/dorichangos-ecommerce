@@ -18,7 +18,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { cn } from "@/lib/utils"
 import { museumFormSchema } from "@/validations/museumSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
@@ -48,7 +47,6 @@ export function MuseumForm() {
   const [isLoading, setIsLoading] = useState(false)
 
   async function onSubmit(data: DisplayFormValues) {
-    console.log(data)
     setIsLoading(true)
 
     try {
@@ -56,9 +54,8 @@ export function MuseumForm() {
         date: data.date,
         items: data.items,
       };
-
       await axios.post("/api/museum", museumDayData);
-      toast.success("Categoria creada");
+      toast.success("Fecha registrada");
       router.push("/admin/museum");
     } catch (error) {
       setIsLoading(false);
@@ -66,14 +63,6 @@ export function MuseumForm() {
     } finally {
       setIsLoading(false);
     }
-
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
   }
 
   return (
@@ -90,10 +79,7 @@ export function MuseumForm() {
                   <FormControl>
                     <Button
                       variant={"outline"}
-                      className={cn(
-                        "w-[440px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
+                      className="w-[440px] pl-3 text-left font-normal"
                     >
                       {field.value ? (
                         format(field.value, "PPP")

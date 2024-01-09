@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { UploadFileIcon, uploadFileContainer } from "@/components/uploadFileIcon"
 import { firebaseImageUpload } from "@/lib/firebaseImageUpload"
-import { productSchema } from "@/validations/productSchemaTest"
+import { productSchema } from "@/validations/productSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Category } from "@prisma/client"
 import axios from "axios"

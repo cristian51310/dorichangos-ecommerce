@@ -2,23 +2,20 @@
 
 import { useCart } from "@/hooks/useCart"
 import { formatPrice } from "@/lib/formatPrice"
-import { cn } from "@/lib/utils"
 import { CartProductType } from "@/types/cart-pruduct-type"
 import { Product } from "@prisma/client"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
 import { Button } from "../ui/button"
 import { Card } from "../ui/card"
 
 export function ProductCard({ data }: { data: Product }) {
   const router = useRouter()
-  const { handleAddToCart, cartProducts } = useCart()
-
-  const [isProductInCart, setIsProductInCart] = useState(false)
+  const { handleAddToCart } = useCart()
 
   const cartProduct: CartProductType = ({
-    id: data.id,
+    id: crypto.randomUUID(),
+    productId: data.id,
     name: data.name,
     image: data.image,
     quantity: 1,
@@ -26,18 +23,8 @@ export function ProductCard({ data }: { data: Product }) {
     price: data.sizes[0].price,
   })
 
-  useEffect(() => {
-    setIsProductInCart(false)
-    if (cartProducts) {
-      const existingId = cartProducts.findIndex(item => item.id === data.id)
-      if (existingId > -1) { setIsProductInCart(true) }
-    }
-  }, [cartProducts, data.id])
-
   return (
-    <Card
-      className={cn("p-2 hover:cursor-pointer hover:shadow-xl")}
-    >
+    <Card className="p-2 hover:cursor-pointer hover:shadow-xl">
       <div
         className="overflow-hidden rounded-md"
         onClick={() => router.push(`/home/product/${data.id}`)}
@@ -47,9 +34,7 @@ export function ProductCard({ data }: { data: Product }) {
           alt={data.name}
           height={150}
           width={150}
-          className={cn(
-            "h-auto w-full object-cover transition-transform hover:scale-105 aspect-[2.5/1] md:aspect-square"
-          )}
+          className="h-auto w-full object-cover transition-transform hover:scale-105 aspect-[2.5/1] md:aspect-square"
         />
       </div>
 
@@ -57,6 +42,7 @@ export function ProductCard({ data }: { data: Product }) {
         <h3 className="font-medium text-base leading-none mb-2.5">
           {data.name}
         </h3>
+
         <div className="flex gap-2 mb-2">
           <p className="text-xs line-through font-bold text-red-500">
             {formatPrice(data.sizes[0].price * 1.3)}
@@ -66,21 +52,12 @@ export function ProductCard({ data }: { data: Product }) {
           </p>
         </div>
 
-        {isProductInCart ? (
-          <Button
-            onClick={() => router.push("/home/cart")}
-            className="w-full bg-blue-400 hover:bg-blue-500"
-          >
-            Ver carrito
-          </Button>
-        ) : (
-          <Button
-            onClick={() => handleAddToCart(cartProduct)}
-            className="w-full"
-          >
-            Agregar al carrito
-          </Button>
-        )}
+        <Button
+          onClick={() => handleAddToCart(cartProduct)}
+          className="w-full"
+        >
+          Agregar al carrito
+        </Button>
       </div>
 
     </Card>

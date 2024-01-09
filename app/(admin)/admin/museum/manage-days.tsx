@@ -2,7 +2,6 @@
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { formatDate } from "@/lib/formatDate"
-import { cn } from "@/lib/utils"
 import { MuseumDate } from "@prisma/client"
 import { EyeOpenIcon } from "@radix-ui/react-icons"
 import {
@@ -39,7 +38,7 @@ export const columns: ColumnDef<MuseumDate>[] = [
         <div className="flex items-center gap-2">
           <Link
             href={`/admin/museum/${row.getValue("id")}`}
-            className={cn(buttonVariants({ variant: "outline", size: "icon" }))}
+            className={buttonVariants({ variant: "outline", size: "icon" })}
           >
             <EyeOpenIcon className="h-4 w-4" />
           </Link>

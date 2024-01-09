@@ -87,7 +87,7 @@
 }
 
 .animated-button:hover .circle {
-  width: 100%;
+  width: 330px;
   height: 220px;
   opacity: 1;
 }

@@ -4,7 +4,7 @@ import { SafeUser } from "@/types"
 import { Category } from "@prisma/client"
 import Link from "next/link"
 import { Button } from "../../ui/button"
-import { CartSheet } from "../cart-sheet"
+import { CartSheet } from "../cart-button"
 import Dropdown from "../categories-dropdown"
 import { UserMenu } from "../user-menu"
 

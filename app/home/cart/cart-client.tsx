@@ -45,8 +45,8 @@ export default function CartClient({ user }: CartClientProps) {
         <div className="max-w-[200px]">
           <Button
             onClick={() => handleClearCart()}
-            size={"sm"}
-            variant={"destructive"}
+            size="sm"
+            variant="destructive"
           >
             <Trash size={16} className="mr-2" />
             Limpiar Carrito

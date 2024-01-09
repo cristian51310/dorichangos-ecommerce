@@ -1,6 +1,5 @@
 "use client"
 import SelectQuantity from "@/components/products/select-quantity"
-import SetQuantity from "@/components/products/set-quantity"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { useCart } from "@/hooks/useCart"
@@ -14,11 +13,13 @@ import { toast } from "sonner"
 
 export default function ProductDetail({ product }: { product: Product }) {
   const { cartProducts, handleAddToCart } = useCart()
+  
   const [isProductInCart, setIsProductInCart] = useState(false)
-  const [quantity, setQuantity] = useState<string>("1")
+  const [quantity, setQuantity] = useState("1")
 
   const [cartProduct, setCartProduct] = useState<CartProductType>({
-    id: product.id,
+    id: crypto.randomUUID(),
+    productId: product.id,
     name: product.name,
     image: product.image,
     quantity: parseInt(quantity),
@@ -87,11 +88,13 @@ export default function ProductDetail({ product }: { product: Product }) {
           </p>
         )}
 
-        <SelectQuantity
-          product={cartProduct}
-          stock={product.stock}
-          handleSelectQty={handleSelectQty}
-        />
+        <div className="flex items-center gap-4">
+          <span className="font-bold">Cantidad:</span>
+          <SelectQuantity
+            product={cartProduct}
+            handleSelectQty={handleSelectQty}
+          />
+        </div>
 
         <Separator className="my-3 md:my-6" />
 

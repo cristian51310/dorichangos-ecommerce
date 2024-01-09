@@ -37,8 +37,6 @@ export default function EditProductForm({ categories, product }: Props) {
       name: product.name,
       description: product.description,
       image: product.image,
-      stock: product.stock.toString(),
-      price: product.price.toString(),
       category: product.categoryIDs[0]
     },
     mode: "onChange",
@@ -60,8 +58,6 @@ export default function EditProductForm({ categories, product }: Props) {
         name: data.name,
         description: data.description,
         image: selectedImage ? uploadedImage.url : data.image,
-        price: data.price,
-        stock: data.stock,
         categoryID: data.category,
       };
 
@@ -97,75 +93,34 @@ export default function EditProductForm({ categories, product }: Props) {
             )}
           />
 
-          <div className="grid md:grid-cols-3 gap-4">
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel>Precio del producto</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      min={0}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Este es el precio del producto, si por alguna razon quieres que sea gratis
-                    el precio debe de ser 0.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Categoria</FormLabel>
-                  <div>
-                    <FormControl>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Categoria" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {categories.map((item) => (
-                            <SelectItem key={item.id} value={item.id}>{item.name}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                  </div>
-                  <FormDescription>
-                    Categoria de tu producto.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
           <FormField
             control={form.control}
-            name="stock"
+            name="category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Existencias del producto</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    min={0}
-                    {...field}
-                  />
-                </FormControl>
+                <FormLabel>Categoria</FormLabel>
+                <div>
+                  <FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Categoria" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map((item) => (
+                          <SelectItem key={item.id} value={item.id}>{item.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                </div>
+                <FormDescription>
+                  Categoria de tu producto.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
+
 
           <FormField
             control={form.control}

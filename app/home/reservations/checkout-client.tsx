@@ -89,7 +89,7 @@ export default function CheckoutClient({ museumDateId, museumHourId, people }: P
         </div>
       )}
       {error && (
-        <div className="min-h-[40vh]">
+        <div className="min-h-[60vh]">
           <p className="text-2xl text-center text-red-600">Algo salio mal</p>
         </div>
       )}

@@ -1,24 +1,59 @@
 "use client"
+
+import DeleteProductDialog from "@/components/admin/delete-product-dialog"
+import StockProductForm from "@/components/admin/stock-product-form"
 import Status from "@/components/status"
-import { Button, buttonVariants } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { cn } from "@/lib/utils"
-import { Product } from "@prisma/client"
-import { CubeIcon, EyeOpenIcon } from "@radix-ui/react-icons"
 import {
-  ColumnDef, ColumnFiltersState, SortingState, VisibilityState,
-  flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
-  getSortedRowModel, useReactTable,
+  Button,
+  buttonVariants
+} from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table"
+import { Product } from "@prisma/client"
+import { EyeOpenIcon } from "@radix-ui/react-icons"
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
 } from "@tanstack/react-table"
 import axios from "axios"
-import { ArrowUpDown, ChevronDown, Edit3Icon, TrashIcon } from "lucide-react"
+import {
+  ArrowUpDown,
+  ChevronDown,
+  Edit3Icon,
+  TrashIcon
+} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useCallback, useState } from "react"
-import { MdClose, MdDone } from "react-icons/md"
+import {
+  useCallback,
+  useState
+} from "react"
+import {
+  MdClose,
+  MdDone
+} from "react-icons/md"
 import { toast } from "sonner"
 
 export function DataTableDemo({ products }: { products: Product[] }) {
@@ -81,25 +116,22 @@ export function DataTableDemo({ products }: { products: Product[] }) {
       cell: ({ row }) => {
         return (
           <div className="flex justify-center items-center gap-2">
-            <Button variant="outline" size="icon"
-              onClick={() => toast.info("En desarrollo")}
-            >
-              <CubeIcon className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="icon"
-              onClick={() => handleDelete(row.getValue("id"), row.getValue("image"))}
-            >
-              <TrashIcon className="h-4 w-4" />
-            </Button>
+            <StockProductForm
+              id={row.getValue("id")}
+              stock={row.getValue("stock")}
+            />
+            <DeleteProductDialog
+              id={row.getValue("id")}
+            />
             <Link
               href={`/admin/products/edit/${row.getValue("id")}`}
-              className={cn(buttonVariants({ variant: "outline", size: "icon" }))}
+              className={buttonVariants({ variant: "outline", size: "icon" })}
             >
               <Edit3Icon className="h-4 w-4" />
             </Link>
             <Link
               href={`/admin/products/${row.getValue("id")}`}
-              className={cn(buttonVariants({ variant: "outline", size: "icon" }))}
+              className={buttonVariants({ variant: "outline", size: "icon" })}
             >
               <EyeOpenIcon className="h-4 w-4" />
             </Link>
@@ -108,18 +140,6 @@ export function DataTableDemo({ products }: { products: Product[] }) {
       },
     },
   ]
-
-  const handleDelete = useCallback(async (id: string, image: any) => {
-    toast.info("Borrando producto...")
-    axios.post(`/api/products/delete`, { id })
-      .then(() => {
-        toast.success("Producto Borrado")
-        router.refresh()
-      })
-      .catch((err) => {
-        toast.error(err.message)
-      })
-  }, [router])
 
   const table = useReactTable({
     data: dataProducts,

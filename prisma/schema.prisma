@@ -121,12 +121,14 @@ model MuseumHour {
 }
 
 type CartProductType {
-  id       String
-  name     String
-  image    String
-  quantity Int
-  size     String
-  price    Float
+  id        String
+  productId String
+  name      String
+  image     String
+  stock     Int
+  quantity  Int
+  size      String
+  price     Float
 }
 
 enum Role {

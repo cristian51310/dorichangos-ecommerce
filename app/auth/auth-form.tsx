@@ -1,5 +1,6 @@
 "use client"
 import { Icons } from "@/components/icons"
+import Loader from "@/components/loader/loader"
 import Section from "@/components/section"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -27,7 +28,11 @@ export function UserAuthForm({ user, className, ...props }: UserAuthFormProps) {
   const [facebookLoading, setFacebookLoading] = useState(false)
   const [twitterLoading, setTwitterLoading] = useState(false)
 
-  if (user) return <p>Ya estas logeado... Redireccionando</p>
+  if (user) return (
+    <div className="min-h-[70vh]">
+      <Loader />
+    </div>
+  )
 
   return (
     <Section>

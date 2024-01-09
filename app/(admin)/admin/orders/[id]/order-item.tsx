@@ -34,13 +34,13 @@ export default function OrderItems({ products }: OrderItemProps) {
               {product.name}
             </TableCell>
             <TableCell>
-              {formatPrice(product.price)}
+              aqui va el precio
             </TableCell>
             <TableCell>
               {product.quantity}
             </TableCell>
             <TableCell>
-              ${(product.price * product.quantity).toFixed(2)}
+              aqui va el precio por la cantidad
             </TableCell>
           </TableRow>
         ))}

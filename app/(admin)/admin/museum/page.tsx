@@ -8,8 +8,6 @@ import { DataTableDemo } from "./manage-days"
 export default async function ManageCategoriesPage() {
   const museumDates = await getMuseumDates()
 
-  console.log(museumDates)
-
   return (
     <>
       <div className="flex flex-col md:flex-row justify-between md:items-center items-start">

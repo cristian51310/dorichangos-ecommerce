@@ -3,7 +3,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { SafeUser } from "@/types"
 import Link from "next/link"
 import { Button } from "../../ui/button"
-import { CartSheet } from "../cart-sheet"
+import { CartSheet } from "../cart-button"
 import { UserMenu } from "../user-menu"
 
 export default function Header({ user }: { user: SafeUser | null }) {

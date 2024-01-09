@@ -5,7 +5,10 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { UploadFileIcon, uploadFileContainer } from "@/components/uploadFileIcon"
+import {
+  UploadFileIcon,
+  uploadFileContainer
+} from "@/components/uploadFileIcon"
 import { firebaseImageUpload } from "@/lib/firebaseImageUpload"
 import { categorySchema } from "@/validations/categorySchema"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -13,7 +16,7 @@ import axios from "axios"
 import { ImageIcon } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
