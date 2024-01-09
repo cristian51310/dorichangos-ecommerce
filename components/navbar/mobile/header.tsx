@@ -22,12 +22,11 @@ export default function Header({ user }: { user: SafeUser | null }) {
         </Link>
 
         <div className="flex justify-center items-center gap-3">
-          {user ? (
-            <>
-              <CartSheet />
-              <UserMenu user={user} />
-            </>
-          ) : (
+          {user && (<UserMenu user={user} />)}
+
+          <CartSheet />
+
+          {!user && (
             <Link
               href="/auth"
               className="hover:scale-105 transition-all duration-300"
@@ -37,6 +36,7 @@ export default function Header({ user }: { user: SafeUser | null }) {
               </Button>
             </Link>
           )}
+
         </div>
 
       </div>

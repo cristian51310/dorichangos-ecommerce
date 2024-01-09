@@ -30,21 +30,32 @@ export const productSchema = z.object({
     })
     .max(255),
 
-  price: z
-    .string({
-      required_error: "El precio es requerido"
-    }),
-
   stock: z
     .string({
       required_error: "El stock es requerido"
     }),
+
+  sizeName: z
+    .array(
+      z.object({
+        value: z.string({ required_error: "El nombre del tamaño es requerido" }),
+      })
+    ),
     
+  sizePrice: z
+    .array(
+      z.object({
+        value: z.string({ required_error: "El precio del tamaño es requerido" }),
+      })
+    ),
+
   image: z
     .any()
-    .refine((files) => {
-      return files?.[0]?.size <= MAX_FILE_SIZE;
-    }, "El tamaño máximo de la imagen es de 5MB")
+    .refine(
+      (files) => {
+        return files?.[0]?.size <= MAX_FILE_SIZE;
+      }, "El tamaño máximo de la imagen es de 5MB"
+    )
     .refine(
       (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
       "El formato de la imagen no es válido"

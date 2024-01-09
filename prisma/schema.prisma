@@ -53,11 +53,16 @@ model Product {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
-  price       Float
   image       String
   stock       Int
+  sizes       Size[]
   categoryIDs String[]   @db.ObjectId
   categories  Category[] @relation(fields: [categoryIDs], references: [id])
+}
+
+type Size {
+  name  String
+  price Float
 }
 
 model Category {
@@ -116,12 +121,12 @@ model MuseumHour {
 }
 
 type CartProductType {
-  id          String
-  name        String
-  description String
-  image       String
-  quantity    Int
-  price       Float
+  id       String
+  name     String
+  image    String
+  quantity Int
+  size     String
+  price    Float
 }
 
 enum Role {

@@ -15,6 +15,7 @@ export default function SetQuantity({
   handleQtyIncrement,
   handleQtyDecrement,
 }: SetQuantityProps) {
+
   return (
     <div className="flex flex-col md:flex-row justify-center items-center border rounded-md bg-blue-100/30">
       <Button onClick={handleQtyDecrement} variant="link" size="sm">

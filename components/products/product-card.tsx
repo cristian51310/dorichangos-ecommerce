@@ -4,17 +4,14 @@ import { useCart } from "@/hooks/useCart"
 import { formatPrice } from "@/lib/formatPrice"
 import { cn } from "@/lib/utils"
 import { CartProductType } from "@/types/cart-pruduct-type"
+import { Product } from "@prisma/client"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Button } from "../ui/button"
 import { Card } from "../ui/card"
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  data: any
-}
-
-export function ProductCard({ data, className }: Props) {
+export function ProductCard({ data }: { data: Product }) {
   const router = useRouter()
   const { handleAddToCart, cartProducts } = useCart()
 
@@ -23,10 +20,10 @@ export function ProductCard({ data, className }: Props) {
   const cartProduct: CartProductType = ({
     id: data.id,
     name: data.name,
-    description: data.description,
     image: data.image,
     quantity: 1,
-    price: data.price,
+    size: data.sizes[0].name,
+    price: data.sizes[0].price,
   })
 
   useEffect(() => {
@@ -39,7 +36,7 @@ export function ProductCard({ data, className }: Props) {
 
   return (
     <Card
-      className={cn("p-2 hover:cursor-pointer hover:shadow-xl", className)}
+      className={cn("p-2 hover:cursor-pointer hover:shadow-xl")}
     >
       <div
         className="overflow-hidden rounded-md"
@@ -62,10 +59,10 @@ export function ProductCard({ data, className }: Props) {
         </h3>
         <div className="flex gap-2 mb-2">
           <p className="text-xs line-through font-bold text-red-500">
-            {formatPrice(data.price * 1.3)}
+            {formatPrice(data.sizes[0].price * 1.3)}
           </p>
           <p className="text-lg font-bold -mt-1 text-green-500">
-            {formatPrice(data.price)}
+            {formatPrice(data.sizes[0].price)}
           </p>
         </div>
 

@@ -8,8 +8,7 @@ type CartContextType = {
   cartProducts: CartProductType[] | null;
   handleAddToCart: (product: CartProductType) => void;
   handleRemoveFromCart: (product: CartProductType) => void;
-  handleCartQtyIncrease: (product: CartProductType) => void;
-  handleCartQtyDecrement: (product: CartProductType) => void;
+  handleCartQtySelect: (product: CartProductType, value: string) => void;
   handleClearCart: () => void;
   paymentIntent: string | null;
   handleSetPaymentIntent: (val: string | null) => void;
@@ -85,49 +84,21 @@ export const CartContextProvider = (props: Props) => {
     }
   }, [cartProducts])
 
-  const handleCartQtyIncrease = useCallback(
-    (product: CartProductType) => {
-      let updatedCart
+  const handleCartQtySelect = useCallback((product: CartProductType, value: string) => {
+    let updatedCart
 
-      if (product.quantity === 5) {
-        return toast.error('No puedes agregar más de 5 productos')
+    if (cartProducts) {
+      updatedCart = [...cartProducts]
+
+      const existingIndex = cartProducts.findIndex(item => item.id === product.id)
+      if (existingIndex > -1) {
+        updatedCart[existingIndex].quantity = parseInt(value)
       }
 
-      if (cartProducts) {
-        updatedCart = [...cartProducts]
-
-        const existingIndex = cartProducts.findIndex(item => item.id === product.id)
-        if (existingIndex > -1) {
-          updatedCart[existingIndex].quantity++
-        }
-
-        setCartProducts(updatedCart)
-        localStorage.setItem('cart', JSON.stringify(updatedCart))
-      }
-    }, [cartProducts]
-  )
-
-  const handleCartQtyDecrement = useCallback(
-    (product: CartProductType) => {
-      let updatedCart
-
-      if (product.quantity === 1) {
-        return toast.error('Ya no puedes quitar mas')
-      }
-
-      if (cartProducts) {
-        updatedCart = [...cartProducts]
-
-        const existingIndex = cartProducts.findIndex(item => item.id === product.id)
-        if (existingIndex > -1) {
-          updatedCart[existingIndex].quantity--
-        }
-
-        setCartProducts(updatedCart)
-        localStorage.setItem('cart', JSON.stringify(updatedCart))
-      }
-    }, [cartProducts]
-  )
+      setCartProducts(updatedCart)
+      localStorage.setItem('cart', JSON.stringify(updatedCart))
+    }
+  }, [cartProducts])
 
   const handleClearCart = useCallback(() => {
     setCartProducts(null)
@@ -146,8 +117,7 @@ export const CartContextProvider = (props: Props) => {
     cartProducts,
     handleAddToCart,
     handleRemoveFromCart,
-    handleCartQtyIncrease,
-    handleCartQtyDecrement,
+    handleCartQtySelect,
     handleClearCart,
     paymentIntent,
     handleSetPaymentIntent

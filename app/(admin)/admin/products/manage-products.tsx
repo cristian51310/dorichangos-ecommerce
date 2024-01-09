@@ -4,7 +4,6 @@ import { Button, buttonVariants } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { formatPrice } from "@/lib/formatPrice"
 import { cn } from "@/lib/utils"
 import { Product } from "@prisma/client"
 import { CubeIcon, EyeOpenIcon } from "@radix-ui/react-icons"
@@ -63,13 +62,6 @@ export function DataTableDemo({ products }: { products: Product[] }) {
           Nombre
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      ),
-    },
-    {
-      accessorKey: "price",
-      header: "Precio",
-      cell: ({ row }) => (
-        <div>{formatPrice(row.getValue("price"))}</div>
       ),
     },
     {

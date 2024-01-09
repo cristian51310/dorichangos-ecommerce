@@ -33,14 +33,12 @@ export default function Navbar({ user, categories }: Props) {
           />
         </div>
 
-
         <div className="flex items-center gap-3">
-          {user ? (
-            <>
-              <CartSheet />
-              <UserMenu user={user} />
-            </>
-          ) : (
+          {user && (<UserMenu user={user} />)}
+
+          <CartSheet />
+
+          {!user && (
             <Link
               href="/auth"
               className="hover:scale-105 transition-all duration-300"
@@ -50,6 +48,7 @@ export default function Navbar({ user, categories }: Props) {
               </Button>
             </Link>
           )}
+
         </div>
       </div>
     </div>

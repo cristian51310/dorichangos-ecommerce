@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { UploadFileIcon, uploadFileContainer } from "@/components/uploadFileIcon"
 import { firebaseImageUpload } from "@/lib/firebaseImageUpload"
-import { productSchema } from "@/validations/productSchema"
+import { productSchema } from "@/validations/productSchemaTest"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Category } from "@prisma/client"
 import axios from "axios"
@@ -17,7 +17,7 @@ import { ImageIcon } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { useForm } from "react-hook-form"
+import { useFieldArray, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
@@ -33,7 +33,12 @@ export default function AddProductForm({ categories }: { categories: Category[] 
     mode: "onChange",
   })
 
-  async function onSubmit(data: ProductFormValues) {
+  const { fields, append } = useFieldArray({
+    name: "sizeName",
+    control: form.control,
+  })
+
+  async function onSubmittt(data: ProductFormValues) {
     setIsLoading(true)
 
     try {
@@ -43,7 +48,6 @@ export default function AddProductForm({ categories }: { categories: Category[] 
       const categoryData = {
         name: data.name,
         description: data.description,
-        price: data.price,
         image: uploadedImage.url,
         stock: data.stock,
         categoryID: data.category,
@@ -52,6 +56,42 @@ export default function AddProductForm({ categories }: { categories: Category[] 
       await axios.post("/api/products", categoryData);
       toast.success("Producto creado");
       router.push("/admin/products");
+    } catch (error) {
+      setIsLoading(false);
+      toast.error("Algo salió mal");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function onSubmit(data: ProductFormValues) {
+    setIsLoading(true)
+
+    try {
+      toast.info("Registrando producto ...");
+      const uploadedImage = await firebaseImageUpload(data.image[0], "products");
+
+      // aqui obtenemos los sizeName y los sizePrice y los unimos en un unico objeto
+      const sizes = data.sizeName.map((item, index) => {
+        return {
+          name: item.value,
+          price: data.sizePrice[index].value,
+        }
+      })
+
+      const productData = {
+        name: data.name,
+        description: data.description,
+        sizes: sizes,
+        image: uploadedImage.url,
+        stock: data.stock,
+        categoryID: data.category,
+      };
+
+      await axios.post("/api/products", productData);
+      toast.success("Producto creado");
+      router.push("/admin/products");
+
     } catch (error) {
       setIsLoading(false);
       toast.error("Algo salió mal");
@@ -83,58 +123,6 @@ export default function AddProductForm({ categories }: { categories: Category[] 
             )}
           />
 
-          <div className="grid md:grid-cols-3 gap-4">
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel>Precio del producto</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      min={0}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Este es el precio del producto, si por alguna razon quieres que sea gratis
-                    el precio debe de ser 0.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Categoria</FormLabel>
-                  <div>
-                    <FormControl>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Categoria" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {categories.map((item) => (
-                            <SelectItem key={item.id} value={item.id}>{item.name}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                  </div>
-                  <FormDescription>
-                    Categoria de tu producto.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
           <FormField
             control={form.control}
             name="stock"
@@ -148,6 +136,34 @@ export default function AddProductForm({ categories }: { categories: Category[] 
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Categoria</FormLabel>
+                <div>
+                  <FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Categoria" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map((item) => (
+                          <SelectItem key={item.id} value={item.id}>{item.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                </div>
+                <FormDescription>
+                  Categoria de tu producto.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -172,6 +188,52 @@ export default function AddProductForm({ categories }: { categories: Category[] 
               </FormItem>
             )}
           />
+
+          <div>
+            {fields.map((field, index) => (
+              <div className="border-b border-neutral-400 py-6 grid md:grid-cols-6 gap-5" key={field.id}>
+                <FormField
+                  control={form.control}
+                  name={`sizeName.${index}.value`}
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-4">
+                      <FormLabel>
+                        Nombre del Tamaño {index + 1}
+                      </FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`sizePrice.${index}.value`}
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                      <FormLabel>
+                        Precio del Tamaño {index + 1}
+                      </FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              className="mt-12"
+              onClick={() => append({ value: "" })}
+            >
+              Añadir Tamaño
+            </Button>
+          </div>
 
           <FormField
             control={form.control}

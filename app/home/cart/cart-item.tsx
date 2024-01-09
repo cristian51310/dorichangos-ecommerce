@@ -1,5 +1,5 @@
 "use client"
-import SetQuantity from "@/components/products/set-quantity"
+import SelectQuantity from "@/components/products/select-quantity"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/hooks/useCart"
 import { formatPrice } from "@/lib/formatPrice"
@@ -15,7 +15,7 @@ interface ItemContentProps {
 }
 
 export default function CartItem({ item }: ItemContentProps) {
-  const { handleRemoveFromCart, handleCartQtyIncrease, handleCartQtyDecrement } = useCart()
+  const { handleRemoveFromCart, handleCartQtySelect } = useCart()
 
   return (
     <div className="grid grid-cols-5 text-xs md:text-sm gap-4 border-t border-slate-200 py-4">
@@ -43,7 +43,7 @@ export default function CartItem({ item }: ItemContentProps) {
                 toast.success('Producto eliminado')
               }}
             >
-              <Trash2Icon size={16}/>
+              <Trash2Icon size={16} />
             </Button>
           </div>
         </div>
@@ -52,10 +52,10 @@ export default function CartItem({ item }: ItemContentProps) {
         {formatPrice(item.price)}
       </div>
       <div className="justify-self-center">
-        <SetQuantity
-          cartProduct={item}
-          handleQtyDecrement={() => handleCartQtyDecrement(item)}
-          handleQtyIncrement={() => handleCartQtyIncrease(item)}
+        <SelectQuantity
+          product={item}
+          stock={item.quantity}
+          handleSelectQty={handleCartQtySelect}
         />
       </div>
       <div className=" justify-self-end font-semibold">

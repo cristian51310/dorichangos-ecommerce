@@ -12,22 +12,28 @@ export async function POST(request: Request) {
   const {
     name,
     description,
-    price,
+    sizes,
     image,
     stock,
     categoryID,
   } = body
 
+  // Crea instancias de Size utilizando los datos proporcionados
+  const sizeInstances = sizes.map(({ name, price }: { name: string, price: string }) => ({
+    name,
+    price: parseInt(price),
+  }));
+
   const product = await prisma.product.create({
     data: {
       name,
       description,
-      price: parseFloat(price),
       stock: parseInt(stock),
       image,
       categories: {
         connect: { id: categoryID }
       },
+      sizes: sizeInstances
     }
   })
 
@@ -47,7 +53,6 @@ export async function PUT(request: Request) {
     id,
     name,
     description,
-    price,
     image,
     stock,
     categoryID,
@@ -58,7 +63,6 @@ export async function PUT(request: Request) {
     data: {
       name,
       description,
-      price: parseFloat(price),
       stock: parseInt(stock),
       image,
       categories: {

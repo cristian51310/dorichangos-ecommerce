@@ -1,28 +1,29 @@
 "use client"
+import SelectQuantity from "@/components/products/select-quantity"
 import SetQuantity from "@/components/products/set-quantity"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { useCart } from "@/hooks/useCart"
+import { formatPrice } from "@/lib/formatPrice"
 import { CartProductType } from "@/types/cart-pruduct-type"
-import { useRouter } from "next/navigation"
+import { Product } from "@prisma/client"
+import Image from "next/image"
 import { useCallback, useEffect, useState } from "react"
 import { MdCheckCircle } from "react-icons/md"
 import { toast } from "sonner"
-import Image from "next/image"
-import { Product } from "@prisma/client"
 
-export default function ProductDetail({ product }: {product: Product}){
-  const router = useRouter()
+export default function ProductDetail({ product }: { product: Product }) {
   const { cartProducts, handleAddToCart } = useCart()
   const [isProductInCart, setIsProductInCart] = useState(false)
+  const [quantity, setQuantity] = useState<string>("1")
 
   const [cartProduct, setCartProduct] = useState<CartProductType>({
     id: product.id,
     name: product.name,
-    description: product.description,
     image: product.image,
-    quantity: 1,
-    price: product.price,
+    quantity: parseInt(quantity),
+    price: product.sizes[0].price,
+    size: product.sizes[0].name,
   })
 
   useEffect(() => {
@@ -33,19 +34,10 @@ export default function ProductDetail({ product }: {product: Product}){
     }
   }, [cartProducts, product.id])
 
-  const handleQtyIncrement = useCallback(() => {
-    if (cartProduct.quantity === 5) return
-    setCartProduct((prev) => {
-      return { ...prev, quantity: prev.quantity + 1 }
-    })
-  }, [cartProduct])
-
-  const handleQtyDecrement = useCallback(() => {
-    if (cartProduct.quantity === 1) return
-    setCartProduct((prev) => {
-      return { ...prev, quantity: prev.quantity - 1 }
-    })
-  }, [cartProduct])
+  const handleSelectQty = useCallback((value: string) => {
+    setQuantity(value)
+    setCartProduct((prev) => ({ ...prev, quantity: parseInt(value) }))
+  }, [])
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
@@ -62,55 +54,56 @@ export default function ProductDetail({ product }: {product: Product}){
       </div>
 
       <div className="flex flex-col text-sm">
+
         <h2 className="text-4xl font-bold capitalize md:mt-0 -mt-5">
           {product.name}
         </h2>
 
-        <Separator className="my-3 md:my-6" />
-
-        <p className="text-left leading-7 text-foreground">
+        <p className="leading-7 mt-3.5">
           {product.description}
         </p>
 
         <Separator className="my-3 md:my-6" />
 
-        {isProductInCart ? (
-          <>
-            <p className="md:my-4 my-0 text-slate-500 flex items-center gap-3">
-              <MdCheckCircle size={20} className="text-green-500" />
-              Producto añadido a tu carrito
-            </p>
+        <div className="flex flex-col gap-2 mb-8">
+          <p className="text-base font-bold">Tamaños disponibles</p>
+          <div className="flex gap-2">
+            {product.sizes.map((size) => (
+              <Button
+                key={size.name}
+                variant={cartProduct.size === size.name ? "default" : "outline"}
+                onClick={() => setCartProduct((prev) => ({ ...prev, size: size.name, price: size.price }))}
+              >
+                {size.name + " - " + formatPrice(size.price)}
+              </Button>
+            ))}
+          </div>
+        </div>
 
-            <Separator className="my-4" />
-
-            <Button
-              variant="secondary"
-              onClick={() => router.push('/home/cart')}
-            >
-              Ir al carrito
-            </Button>
-          </>
-        ) : (
-          <>
-            <SetQuantity
-              cartProduct={cartProduct}
-              handleQtyIncrement={handleQtyIncrement}
-              handleQtyDecrement={handleQtyDecrement}
-            />
-            
-            <Separator className="my-3 md:my-6" />
-
-            <Button
-              disabled={product.stock === 0}
-              onClick={() => {
-                handleAddToCart(cartProduct)
-                toast.success('Producto añadido al carrito')
-              }}
-            >
-              Agregar al carrito
-            </Button>
-          </>
+        {isProductInCart && (
+          <p className="md:my-4 my-0 text-slate-500 flex items-center gap-3">
+            <MdCheckCircle size={20} className="text-green-500" />
+            Producto añadido a tu carrito
+          </p>
         )}
+
+        <SelectQuantity
+          product={cartProduct}
+          stock={product.stock}
+          handleSelectQty={handleSelectQty}
+        />
+
+        <Separator className="my-3 md:my-6" />
+
+        <Button
+          disabled={product.stock === 0}
+          onClick={() => {
+            handleAddToCart(cartProduct)
+            toast.success('Producto añadido al carrito')
+          }}
+        >
+          Agregar al carrito
+        </Button>
       </div>
     </div>
   )

@@ -9,11 +9,11 @@ import { truncateText } from "@/lib/truncateText"
 import Image from "next/image"
 import Link from "next/link"
 import { HiOutlineShoppingCart } from "react-icons/hi2"
-import SetQuantity from "../products/set-quantity"
+import SelectQuantity from "../products/select-quantity"
 import { Card } from "../ui/card"
 
 export function CartSheet() {
-  const { cartProducts, cartTotalQty, handleClearCart, handleCartQtyDecrement, handleCartQtyIncrease } = useCart()
+  const { cartProducts, cartTotalQty, handleCartQtySelect } = useCart()
 
   return (
     <Sheet>
@@ -65,10 +65,10 @@ export function CartSheet() {
                     </div>
 
                     <div>
-                      <SetQuantity
-                        cartProduct={product}
-                        handleQtyDecrement={() => handleCartQtyDecrement(product)}
-                        handleQtyIncrement={() => handleCartQtyIncrease(product)}
+                      <SelectQuantity
+                        product={product}
+                        stock={product.quantity}
+                        handleSelectQty={() => handleCartQtySelect(product, "2")}
                       />
                     </div>
                   </div>
@@ -77,7 +77,7 @@ export function CartSheet() {
             </div>
 
             <SheetClose asChild>
-              <Link href="/home/checkout">
+              <Link href="/home/cart">
                 <Button>
                   Continuar con el pago
                 </Button>
