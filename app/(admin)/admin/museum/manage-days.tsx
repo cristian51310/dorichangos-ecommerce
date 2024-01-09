@@ -1,13 +1,31 @@
 "use client"
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+
+import {
+  Button,
+  buttonVariants
+} from "@/components/ui/button"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table"
 import { formatDate } from "@/lib/formatDate"
 import { MuseumDate } from "@prisma/client"
 import { EyeOpenIcon } from "@radix-ui/react-icons"
 import {
-  ColumnDef, ColumnFiltersState, SortingState, VisibilityState,
-  flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
-  getSortedRowModel, useReactTable,
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
 } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 import Link from "next/link"

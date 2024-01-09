@@ -1,20 +1,41 @@
 "use client"
 import Status from "@/components/status"
 import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table"
 import { formatPrice } from "@/lib/formatPrice"
 import { Order, User } from "@prisma/client"
 import { EyeOpenIcon } from "@radix-ui/react-icons"
 import {
-  ColumnDef, ColumnFiltersState, SortingState, VisibilityState,
-  flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
-  getSortedRowModel, useReactTable,
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
 } from "@tanstack/react-table"
 import axios from "axios"
 import moment from "moment"
 import { useRouter } from "next/navigation"
-import { useCallback, useState } from "react"
-import { MdAccessTimeFilled, MdDeliveryDining, MdDone } from "react-icons/md"
+import {
+  useCallback,
+  useState
+} from "react"
+import {
+  MdAccessTimeFilled,
+  MdDeliveryDining,
+  MdDone
+} from "react-icons/md"
 import { toast } from "sonner"
 
 interface ManageOrdersProps {
@@ -48,8 +69,8 @@ export function DataTableDemo({ orders }: ManageOrdersProps) {
   const columns: ColumnDef<any>[] = [
     {
       accessorKey: "id",
-      header: () => (<div className="hidden"/>),
-      cell: () => (<div className="hidden"/>)
+      header: () => (<div className="hidden" />),
+      cell: () => (<div className="hidden" />)
     },
     {
       accessorKey: "customer",

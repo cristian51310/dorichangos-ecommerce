@@ -6,8 +6,15 @@ import { signOut } from "next-auth/react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { IoLogOutOutline, IoNotificationsOutline, IoStorefrontOutline } from "react-icons/io5"
-import { Button, buttonVariants } from "../ui/button"
+import {
+  IoLogOutOutline,
+  IoNotificationsOutline,
+  IoStorefrontOutline
+} from "react-icons/io5"
+import {
+  Button,
+  buttonVariants
+} from "../ui/button"
 import AdminMobileMenu from "./admin-mobile-menu"
 
 export function Menu() {

@@ -50,10 +50,10 @@ export default function LegalPage() {
         <AccordionItem value="item-4">
           <AccordionTrigger>Estandares de calidad</AccordionTrigger>
           <AccordionContent>
-            En [Nombre de tu Empresa], nuestra misión es proporcionar 
-            productos/servicios de la más alta calidad para satisfacer 
-            las necesidades y expectativas de nuestros clientes. 
-            Nos comprometemos a mantener estándares excepcionales 
+            En [Nombre de tu Empresa], nuestra misión es proporcionar
+            productos/servicios de la más alta calidad para satisfacer
+            las necesidades y expectativas de nuestros clientes.
+            Nos comprometemos a mantener estándares excepcionales
             en todos los aspectos de nuestro negocio y a superar las expectativas en cada interacción.
           </AccordionContent>
         </AccordionItem>

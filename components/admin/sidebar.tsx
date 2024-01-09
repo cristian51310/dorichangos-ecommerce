@@ -3,7 +3,10 @@ import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { AdminLinkProps, adminLinks } from "./admin-links"
+import {
+  AdminLinkProps,
+  adminLinks
+} from "./admin-links"
 
 function SideBarItem({ pathname, href, children }: AdminLinkProps) {
   return (

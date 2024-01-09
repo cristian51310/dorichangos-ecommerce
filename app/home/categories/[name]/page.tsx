@@ -1,10 +1,8 @@
-import getCategories from "@/actions/getCategories"
 import getCategoryByName from "@/actions/getCategoryByName"
+import getProductsByCategory from "@/actions/getProductsByCategory"
 import NullData from "@/components/null-data"
 import Section from "@/components/section"
 import CategoryDetail from "./category-detail"
-import { products } from "@/app/(admin)/manager/data"
-import getProductsByCategory from "@/actions/getProductsByCategory"
 
 interface IParams {
   name: string

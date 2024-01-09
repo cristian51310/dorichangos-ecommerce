@@ -1,11 +1,23 @@
 "use client"
+
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { UploadFileIcon, uploadFileContainer } from "@/components/uploadFileIcon"
+import {
+  UploadFileIcon,
+  uploadFileContainer
+} from "@/components/uploadFileIcon"
 import { firebaseImageUpload } from "@/lib/firebaseImageUpload"
 import { categorySchema } from "@/validations/categorySchema"
 import { Category } from "@prisma/client"

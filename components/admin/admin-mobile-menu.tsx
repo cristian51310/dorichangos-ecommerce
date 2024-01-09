@@ -1,6 +1,9 @@
 "use client"
 
-import { Button, buttonVariants } from "@/components/ui/button"
+import {
+  Button,
+  buttonVariants
+} from "@/components/ui/button"
 import {
   Sheet,
   SheetContent,
@@ -11,7 +14,10 @@ import { signOut } from "next-auth/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { IoMenuOutline } from "react-icons/io5"
-import { AdminLinkProps, adminLinks } from "./admin-links"
+import {
+  AdminLinkProps,
+  adminLinks
+} from "./admin-links"
 
 function MenuItem({ pathname, href, children }: AdminLinkProps) {
   return (

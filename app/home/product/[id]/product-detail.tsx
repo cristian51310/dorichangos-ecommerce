@@ -7,13 +7,17 @@ import { formatPrice } from "@/lib/formatPrice"
 import { CartProductType } from "@/types/cart-pruduct-type"
 import { Product } from "@prisma/client"
 import Image from "next/image"
-import { useCallback, useEffect, useState } from "react"
+import {
+  useCallback,
+  useEffect,
+  useState
+} from "react"
 import { MdCheckCircle } from "react-icons/md"
 import { toast } from "sonner"
 
 export default function ProductDetail({ product }: { product: Product }) {
   const { cartProducts, handleAddToCart } = useCart()
-  
+
   const [isProductInCart, setIsProductInCart] = useState(false)
   const [quantity, setQuantity] = useState("1")
 

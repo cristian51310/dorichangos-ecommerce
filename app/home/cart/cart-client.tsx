@@ -1,4 +1,6 @@
 "use client"
+
+import Section from "@/components/section"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/hooks/useCart"
 import { formatPrice } from "@/lib/formatPrice"
@@ -15,17 +17,22 @@ interface CartClientProps {
 
 export default function CartClient({ user }: CartClientProps) {
   const router = useRouter()
+
   const { cartProducts, cartTotalAmount, handleClearCart } = useCart()
 
   if (!cartProducts || cartProducts.length === 0) return (
-    <div className="flex flex-col items-center justify-center p-8 gap-3 min-h-[60vh]">
-      <p className="text-3xl font-bold">Tu carrito esta vacio</p>
-
-      <Link href="/home" className="flex items-center gap-2">
+    <Section
+      title="Tu carrito esta vacio"
+      className="min-h-[60vh] flex flex-col items-center justify-center"
+    >
+      <Link
+        href="/home"
+        className="flex items-center gap-2"
+      >
         <MdArrowBack />
         <span>Vamos a comprar</span>
       </Link>
-    </div>
+    </Section>
   )
 
   return (

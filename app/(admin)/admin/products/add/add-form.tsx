@@ -2,12 +2,29 @@
 
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { UploadFileIcon, uploadFileContainer } from "@/components/uploadFileIcon"
+import {
+  UploadFileIcon,
+  uploadFileContainer
+} from "@/components/uploadFileIcon"
 import { firebaseImageUpload } from "@/lib/firebaseImageUpload"
 import { productSchema } from "@/validations/productSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -17,7 +34,10 @@ import { ImageIcon } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { useFieldArray, useForm } from "react-hook-form"
+import {
+  useFieldArray,
+  useForm
+} from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 

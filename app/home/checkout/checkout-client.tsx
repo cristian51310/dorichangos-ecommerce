@@ -3,10 +3,17 @@ import Loader from "@/components/loader/loader";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
 import { Elements } from "@stripe/react-stripe-js";
-import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
+import {
+  StripeElementsOptions,
+  loadStripe
+} from "@stripe/stripe-js";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState
+} from "react";
 import { toast } from "sonner";
 import CheckoutForm from "./checkout-form";
 

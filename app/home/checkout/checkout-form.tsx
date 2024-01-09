@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button"
 import { useCart } from "@/hooks/useCart"
 import { formatPrice } from "@/lib/formatPrice"
 import {
-  AddressElement,
   PaymentElement,
   useElements,
   useStripe
@@ -63,7 +62,7 @@ export default function CheckoutForm({ clientSecret, handleSetPaymentSuccess }: 
     <form onSubmit={handleSubmit} id="payment-form">
       <div className="mb-6">
         <h1 className="text-xl font-bold mb-4">Ingresa tus datos</h1>
-        
+
         <h2 className="font-semibold my-4">Informacion de pago</h2>
 
         <PaymentElement

@@ -1,4 +1,5 @@
 "use client"
+
 import { Button } from "@/components/ui/button"
 import {
   Select,
@@ -17,7 +18,11 @@ import axios from "axios"
 import { Trash2Icon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useCallback, useEffect, useState } from "react"
+import {
+  useCallback,
+  useEffect,
+  useState
+} from "react"
 import { toast } from "sonner"
 
 export default function CartItem({ item }: { item: CartProductType }) {

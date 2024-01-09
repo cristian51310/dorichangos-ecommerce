@@ -1,4 +1,5 @@
 "use client"
+
 import { ProductCard } from "@/components/products/product-card"
 import { Separator } from "@/components/ui/separator"
 import { Category } from "@prisma/client"

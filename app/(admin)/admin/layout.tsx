@@ -1,7 +1,10 @@
 import { getCurrentUser } from "@/actions/getCurrentUser"
 import { Menu } from "@/components/admin/menu"
 import { Sidebar } from "@/components/admin/sidebar"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import {
+  ScrollArea,
+  ScrollBar
+} from "@/components/ui/scroll-area"
 import type { Metadata } from "next"
 import Link from "next/link"
 

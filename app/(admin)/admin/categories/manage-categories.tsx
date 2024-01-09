@@ -1,14 +1,33 @@
 "use client"
+
 import { Button, buttonVariants } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table"
 import { Category } from "@prisma/client"
 import { LoopIcon } from "@radix-ui/react-icons"
 import {
-  ColumnDef, ColumnFiltersState, SortingState, VisibilityState,
-  flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
-  getSortedRowModel, useReactTable,
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, EditIcon, TrashIcon } from "lucide-react"
+import {
+  ArrowUpDown,
+  EditIcon,
+  TrashIcon
+} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
