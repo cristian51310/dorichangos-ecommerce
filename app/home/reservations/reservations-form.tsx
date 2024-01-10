@@ -1,5 +1,6 @@
 "use client"
 
+import NullData from "@/components/null-data"
 import { Button } from "@/components/ui/button"
 import {
   Select,
@@ -21,10 +22,12 @@ interface Props {
 }
 
 export default function ReservationsForm({ days, hours }: Props) {
-  const [selectedDay, setSelectedDay] = useState<string | undefined>(days[0].id)
+  const [selectedDay, setSelectedDay] = useState<string | undefined>(undefined)
   const [selectedHour, setSelectedHour] = useState<string | undefined>(undefined)
   const [selectedPeople, setSelectedPeople] = useState<string | undefined>(undefined)
   const [isCheckout, setIsCheckout] = useState(false)
+
+  console.log("selectedDay", days)
 
   // obtener las horas del dia seleccionado
   const hoursperday = hours.filter((hour) => hour.museumDateId === selectedDay)
@@ -54,9 +57,12 @@ export default function ReservationsForm({ days, hours }: Props) {
     }
 
     setIsCheckout(true)
-
     localStorage.setItem("reservationRequest", JSON.stringify(reservationRequest))
   }
+
+  if (days.length === 0) return (
+    <NullData title="Actualmente no hay fechas disponibles" />
+  )
 
   return (
     <div className="grid md:grid-cols-5 gap-10">
