@@ -23,15 +23,18 @@ export default function OrderItems({ products }: OrderItemProps) {
         {products.map((product) => (
           <TableRow key={product.id}>
             <TableCell className="flex items-center gap-4">
-              <div className="relative w-20 aspect-square rounded-md">
+              <div className="relative h-24 aspect-square rounded-md overflow-hidden">
                 <Image
                   src={product.image}
                   alt={product.name}
                   fill
-                  className="object-contain rounded-md"
+                  className=" bg-cover rounded-md"
                 />
               </div>
-              {product.name}
+              <div className="grid gap-3">
+                <p className="font-bold text-xl">{product.name}</p>
+                <p>{product.size}</p>
+              </div>
             </TableCell>
             <TableCell>
               {formatPrice(product.price)}

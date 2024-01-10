@@ -31,16 +31,19 @@ export default function OrderItems({ products }: OrderItemProps) {
                   className="object-contain rounded-md"
                 />
               </div>
-              {product.name}
+              <div className="grid gap-3">
+                <p className="font-bold text-xl">{product.name}</p>
+                <p>{product.size}</p>
+              </div>
             </TableCell>
             <TableCell>
-              aqui va el precio
+              {formatPrice(product.price)}
             </TableCell>
             <TableCell>
               {product.quantity}
             </TableCell>
             <TableCell>
-              aqui va el precio por la cantidad
+              ${(product.price * product.quantity).toFixed(2)}
             </TableCell>
           </TableRow>
         ))}

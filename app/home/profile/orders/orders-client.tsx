@@ -58,7 +58,7 @@ export function OrdersClient({ orders }: ManageOrdersProps) {
     },
     {
       accessorKey: "deliveryStatus",
-      header: "Entregado",
+      header: "Estatus de entrega",
       cell: ({ row }) => (
         <div className="font-semibold">
           {row.getValue("deliveryStatus") === "pending" ? (
@@ -85,14 +85,15 @@ export function OrdersClient({ orders }: ManageOrdersProps) {
     },
     {
       id: "actions",
-      header: "Acciones",
+      header: "Detalles",
       cell: ({ row }) => {
         return (
           <Link
             href={`/home/profile/orders/${row.getValue("id")}`}
-            className={buttonVariants({ size: "icon", variant: "outline" })}
+            className={buttonVariants({ variant: "outline" })}
           >
-            <EyeOpenIcon className="h-4 w-4" />
+            <EyeOpenIcon className="h-4 w-4 mr-2" />
+            Ver detalles
           </Link>
         )
       },

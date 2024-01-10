@@ -70,7 +70,7 @@ export default function CartClient({ user }: CartClientProps) {
             className="w-full"
             onClick={() => {
               if (user) router.push("/home/checkout")
-              else router.push("/signin")
+              else router.push("/auth")
             }}
           >
             {user ? "Proceder al pago" : "Inicia sesion para continuar"}

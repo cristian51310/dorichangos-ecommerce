@@ -125,7 +125,6 @@ type CartProductType {
   productId String
   name      String
   image     String
-  stock     Int
   quantity  Int
   size      String
   price     Float
