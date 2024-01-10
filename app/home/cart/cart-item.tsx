@@ -17,7 +17,6 @@ import { CartProductType } from "@/types/cart-pruduct-type"
 import axios from "axios"
 import { Trash2Icon } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
 import {
   useCallback,
   useEffect,
@@ -33,11 +32,18 @@ export default function CartItem({ item }: { item: CartProductType }) {
 
   // obtener el stock del producto
   useEffect(() => {
-    setQuantity(item.quantity.toString())
-    axios.get(`/api/products/stock/${item.productId}`)
-      .then(res => setStock(res.data.stock))
-      .catch(err => console.log(err))
-  }, [item.productId, item.quantity])
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/api/products/stock/${item.productId}`);
+        setStock(response.data.stock);
+        setQuantity(item.quantity.toString());
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [item.productId, item.quantity]);
 
   const handleSelect = useCallback((value: string) => {
     toast.success('Cantidad actualizada')
@@ -48,21 +54,18 @@ export default function CartItem({ item }: { item: CartProductType }) {
   return (
     <div className="grid grid-cols-5 text-xs md:text-sm gap-4 border-t border-slate-200 py-4">
       <div className="col-span-2 justify-self-start flex flex-col md:flex-row gap-2 md:gap-4">
-        <Link href={`/product/${item.id}`}>
-          <div className="relative w-[120px] aspect-square">
-            <Image
-              src={item.image}
-              alt={item.name}
-              fill
-              className="object-cover rounded-xl"
-            />
-          </div>
-        </Link>
+        <div className="relative w-[120px] aspect-square">
+          <Image
+            src={item.image}
+            alt={item.name}
+            fill
+            className="object-cover rounded-xl"
+          />
+        </div>
         <div className="flex flex-col justify-between gap-4">
-          <Link href={`/product/${item.id}`}>
-            <p className="font-bold text-2xl text-rose-900">{truncateText(item.name)}</p>
-            <p className="font-semibold mt-1">{item.size}</p>
-          </Link>
+
+          <p className="font-bold text-2xl text-rose-900">{truncateText(item.name)}</p>
+          <p className="font-semibold mt-1">{item.size}</p>
 
           <div className="w-[90px]">
             <Button
