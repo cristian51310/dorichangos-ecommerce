@@ -10,24 +10,14 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { CartProductType } from "@/types/cart-pruduct-type"
-import axios from "axios"
-import { useEffect, useState } from "react"
 
 interface Props {
   product: CartProductType
+  productStock: number
   handleSelectQty: (value: string) => void
 }
 
-export default function SelectQuantity({ product, handleSelectQty }: Props) {
-  const [stock, setStock] = useState(0)
-
-  // obtener el stock del producto
-  useEffect(() => {
-    axios.get(`/api/products/stock/${product.productId}`)
-      .then(res => setStock(res.data.stock))
-      .catch(err => console.log(err))
-  }, [product.productId])
-
+export default function SelectQuantity({ product, productStock, handleSelectQty }: Props) {
   return (
     <Select
       value={product.quantity.toString()}
@@ -39,7 +29,7 @@ export default function SelectQuantity({ product, handleSelectQty }: Props) {
       <SelectContent className="w-full">
         <SelectGroup>
           <SelectLabel>Cantidad</SelectLabel>
-          {Array.from({ length: stock }, (_, i) => (
+          {Array.from({ length: productStock }, (_, i) => (
             <SelectItem key={i + 1} value={(i + 1).toString()}>{i + 1}</SelectItem>
           ))}
         </SelectGroup>

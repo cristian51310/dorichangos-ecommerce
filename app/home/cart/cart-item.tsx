@@ -14,36 +14,23 @@ import { useCart } from "@/hooks/useCart"
 import { formatPrice } from "@/lib/formatPrice"
 import { truncateText } from "@/lib/truncateText"
 import { CartProductType } from "@/types/cart-pruduct-type"
-import axios from "axios"
 import { Trash2Icon } from "lucide-react"
 import Image from "next/image"
 import {
   useCallback,
-  useEffect,
   useState
 } from "react"
 import { toast } from "sonner"
 
-export default function CartItem({ item }: { item: CartProductType }) {
+interface Props {
+  item: CartProductType
+  stock: number
+}
+
+export default function CartItem({ item, stock }: Props) {
   const { handleRemoveFromCart, handleCartQtySelect } = useCart()
 
-  const [stock, setStock] = useState(0)
-  const [quantity, setQuantity] = useState("")
-
-  // obtener el stock del producto
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`/api/products/stock/${item.productId}`);
-        setStock(response.data.stock);
-        setQuantity(item.quantity.toString());
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, [item.productId, item.quantity]);
+  const [quantity, setQuantity] = useState(item.quantity.toString())
 
   const handleSelect = useCallback((value: string) => {
     toast.success('Cantidad actualizada')
@@ -74,8 +61,7 @@ export default function CartItem({ item }: { item: CartProductType }) {
               onClick={() => {
                 handleRemoveFromCart(item)
                 toast.success('Producto eliminado')
-              }}
-            >
+              }}>
               <Trash2Icon size={16} />
             </Button>
           </div>

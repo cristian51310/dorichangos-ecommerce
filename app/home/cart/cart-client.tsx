@@ -1,52 +1,56 @@
 "use client"
 
-import Section from "@/components/section"
+import NullData from "@/components/null-data"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/hooks/useCart"
 import { formatPrice } from "@/lib/formatPrice"
 import { SafeUser } from "@/types"
+import { Product } from "@prisma/client"
 import { Trash } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { MdArrowBack } from "react-icons/md"
 import CartItem from "./cart-item"
 
-interface CartClientProps {
+interface Props {
   user: SafeUser | null
+  products: Product[]
 }
 
-export default function CartClient({ user }: CartClientProps) {
+export default function CartClient({ user, products }: Props) {
   const router = useRouter()
 
   const { cartProducts, cartTotalAmount, handleClearCart } = useCart()
 
-  if (!cartProducts || cartProducts.length === 0) return (
-    <Section
-      title="Tu carrito esta vacio"
-      className="min-h-[60vh] flex flex-col items-center justify-center"
-    >
+  if (!cartProducts || cartProducts.length === 0 || products.length === 0) return (
+    <NullData title="Tu carrito esta vacio">
       <Link
         href="/home"
-        className="flex items-center gap-2"
-      >
+        className="flex items-center gap-2">
         <MdArrowBack />
         <span>Vamos a comprar</span>
       </Link>
-    </Section>
+    </NullData>
   )
 
   return (
     <>
-      <div className="grid grid-cols-5 text-base gap-4 pb-3 items-center mt-10">
-        <div className="col-span-2 justify-self-start text-sm font-bold md:text-base">Producto</div>
-        <div className="justify-self-center text-sm font-bold md:text-base">Precio</div>
-        <div className="justify-self-center text-sm font-bold md:text-base">Cantidad</div>
-        <div className="justify-self-end text-sm font-bold md:text-base">Total</div>
+      <div className="grid grid-cols-5 gap-4 pb-3 items-center mt-10 text-sm font-bold md:text-base">
+        <div className="col-span-2 justify-self-start">Producto</div>
+        <div className="justify-self-center">Precio</div>
+        <div className="justify-self-center">Cantidad</div>
+        <div className="justify-self-end">Total</div>
       </div>
       <div>
-        {cartProducts.map((product) => (
-          <CartItem key={product.id} item={product} />
-        ))}
+        {cartProducts.map((product) => {
+          // Buscar el producto correspondiente en serverProducts
+          const matchingProduct = products.find((serverProduct) => serverProduct.id === product.productId);
+          // Verificar si se encontró el producto correspondiente
+          const stock = matchingProduct ? matchingProduct.stock : 0;
+          return (
+            <CartItem key={product.id} item={product} stock={stock} />
+          )
+        })}
       </div>
       <div className="border-t border-slate-200 py-4 flex md:flex-row flex-col justify-between gap-4">
         <div className="max-w-[200px]">
@@ -78,8 +82,7 @@ export default function CartClient({ user }: CartClientProps) {
 
           <Link
             href="/"
-            className="flex items-center gap-2 mt-3"
-          >
+            className="flex items-center gap-2 mt-3">
             <MdArrowBack />
             <span>Continuar Comprando</span>
           </Link>

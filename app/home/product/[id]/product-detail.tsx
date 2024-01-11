@@ -96,6 +96,7 @@ export default function ProductDetail({ product }: { product: Product }) {
           <span className="font-bold">Cantidad:</span>
           <SelectQuantity
             product={cartProduct}
+            productStock={product.stock}
             handleSelectQty={handleSelectQty}
           />
         </div>
