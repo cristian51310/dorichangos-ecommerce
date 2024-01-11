@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/page.tsx",
+    "app/(landing)/page.tsx",
     "app/(admin)/admin/museum/calendar.tsx"
   ],
   "exclude": [

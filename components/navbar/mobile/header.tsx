@@ -8,7 +8,7 @@ import { UserMenu } from "../user-menu"
 
 export default function Header({ user }: { user: SafeUser | null }) {
   return (
-    <div className="flex transition items-center w-full mx-auto relative bg-pink-500 h-16 px-6 md:px-12">
+    <div className="flex transition items-center w-full mx-auto relative bg-almond-500 h-16 px-6 md:px-12">
 
       <div className="flex items-center gap-3 justify-between w-full">
         <Link

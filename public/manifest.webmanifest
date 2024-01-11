@@ -9,11 +9,6 @@
   "description": "Obten tus comidas favoritas en un solo lugar",
   "icons": [
     {
-      "src": "/icon-256x256.jpg",
-      "sizes": "256x256",
-      "type": "image/png"
-    },
-    {
       "src": "/logo.jpg",
       "sizes": "512x512",
       "type": "image/png"

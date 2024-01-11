@@ -89,7 +89,7 @@ export function OrdersClient({ orders }: ManageOrdersProps) {
       cell: ({ row }) => {
         return (
           <Link
-            href={`/home/profile/orders/${row.getValue("id")}`}
+            href={`/profile/orders/${row.getValue("id")}`}
             className={buttonVariants({ variant: "outline" })}
           >
             <EyeOpenIcon className="h-4 w-4 mr-2" />

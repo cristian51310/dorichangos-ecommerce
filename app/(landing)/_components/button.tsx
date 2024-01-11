@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import "./button.css"
 
-export default function LandingButton() {
+export default function Button() {
   const router = useRouter()
 
   return (

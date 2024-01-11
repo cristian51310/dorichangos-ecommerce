@@ -1,4 +1,5 @@
 "use client"
+
 import { Icons } from "@/components/icons"
 import Loader from "@/components/loader/loader"
 import { Button } from "@/components/ui/button"
@@ -61,7 +62,7 @@ export function UserAuthForm({ user, className, ...props }: UserAuthFormProps) {
           setGoogleLoading(true)
           signIn("google")
         }}
-        className="bg-neutral-50 border-2 border-b-orange-500 border-t-blue-500 border-r-green-500 border-l-yellow-400"
+        className="bg-king-500 border-king-500 text-white hover:bg-king-700 hover:text-white"
       >
         {googleLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

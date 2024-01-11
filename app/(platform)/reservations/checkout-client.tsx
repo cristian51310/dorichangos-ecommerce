@@ -99,7 +99,7 @@ export default function CheckoutClient({ museumDateId, museumHourId, people }: P
             <p className="text-5xl font-bold text-center mb-3">Pago exitoso</p>
             <p className="text-xl text-center text-neutral-800 my-4">Gracias por tu compra</p>
           </div>
-          <Button onClick={() => router.push("/home/profile/reservations")}>
+          <Button onClick={() => router.push("/profile/reservations")}>
             Ver mis reservaciones
             <ArrowRight className="ml-2" size={24} />
           </Button>

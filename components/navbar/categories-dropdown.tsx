@@ -12,7 +12,7 @@ export default function Dropdown({ categories }: { categories: Category[] }) {
   const [dropdown, setDropdown] = useState(false)
 
   const submitHandle = (category: Category) => {
-    router.push(`/home/categories/${category.name}`);
+    router.push(`/categories/${category.name}`);
     setDropdown(false);
   };
 

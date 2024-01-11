@@ -286,7 +286,7 @@ export default function AddProductForm({ categories }: { categories: Category[] 
                         className="rounded-md object-cover w-40 h-40 border-2"
                       />
                     ) : (
-                      <div className="grid place-items-center w-40 h-40 bg-pink-100/30 rounded-md border-2">
+                      <div className="grid place-items-center w-40 h-40 bg-almond-100/50 rounded-md border-2">
                         <ImageIcon size={56} className="text-neutral-500" />
                       </div>
                     )}

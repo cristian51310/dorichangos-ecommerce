@@ -4,7 +4,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="lg:h-[100vh] h-[35vh] flex-col items-center justify-center lg:grid lg:grid-cols-2 xl:grid-cols-3">
 
-      <div className="w-full h-full flex-col lg:col-span-1 xl:col-span-2 bg-pink-900 bg-muted p-10 text-white flex">
+      <div className="w-full h-full flex-col lg:col-span-1 xl:col-span-2 bg-almond-900 p-10 text-white flex">
         <div className="relative z-20 flex flex-row items-center gap-6">
           <Image
             src={"/logo.jpg"}

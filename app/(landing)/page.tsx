@@ -1,9 +1,8 @@
-import BannerMuseo from "@/components/landing/bannerMuseo";
-import Title from "@/components/landing/title";
 import Image from "next/image";
-import LandingBackground from "@/components/landing/background";
-import LandingButton from "@/components/landing/landing-button";
-import "../components/landing/bento-image.css";
+import Background from "./_components/background";
+import BannerMuseo from "./_components/bannerMuseo";
+import "./_components/bento-image.css";
+import Button from "./_components/button";
 
 const images = [
   "/images/landing/1.jpg",
@@ -20,16 +19,18 @@ const images = [
 export default function LandingPage() {
   return (
     <>
-      <LandingBackground />
+      <Background />
 
       <div className="min-h-screen flex flex-col items-center">
-        <Title />
+        <h1 className="text-5xl lg:text-7xl xl:text-9xl font-black text-center md:my-12 my-8 md:mb-8 text-almond-800">
+          Dorichangos
+        </h1>
 
-        <h3 className="text-xl lg:text-2xl xl:text-3xl text-pink-700 max-w-3xl md:px-0 px-6 mb-14">
+        <h3 className="text-xl lg:text-2xl xl:text-3xl text-almond-600 max-w-3xl md:px-0 px-6 mb-14">
           Inserte una frase aqui que haga que la gente quiera comprar, puede ser algun eslogan
         </h3>
 
-        <LandingButton />
+        <Button />
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-5 max-w-5xl mt-12 mb-20 md:px-0 px-6">
           {images.map((image, index) => (
@@ -48,6 +49,5 @@ export default function LandingPage() {
         <BannerMuseo />
       </div>
     </>
-
   );
 }

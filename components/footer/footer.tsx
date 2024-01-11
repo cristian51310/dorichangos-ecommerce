@@ -23,19 +23,19 @@ export default function Footer() {
 
         <div className="grid grid-cols-1 gap-4 sm:gap-12 sm:grid-cols-2">
           <div className="text-gray-500 font-medium flex flex-col gap-4">
-            <Link href="/home/legal" className="hover:underline">
+            <Link href="/legal" className="hover:underline">
               Terminos y condiciones
             </Link>
-            <Link href="/home/legal" className="hover:underline">
+            <Link href="/legal" className="hover:underline">
               Politica de privacidad
             </Link>
           </div>
 
           <div className="text-gray-500 font-medium flex flex-col gap-4">
-            <Link href="/home/legal" className="hover:underline">
+            <Link href="/legal" className="hover:underline">
               Nuestras Tarifas
             </Link>
-            <Link href="/home/legal" className="hover:underline">
+            <Link href="/legal" className="hover:underline">
               Estandares de calidad
             </Link>
           </div>

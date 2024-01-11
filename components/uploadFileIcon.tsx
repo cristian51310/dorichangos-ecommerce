@@ -1,6 +1,6 @@
 import { UploadCloud } from "lucide-react";
 
-export const uploadFileContainer = "flex flex-col items-center justify-center w-full h-40 border-2 border-gray-200 border-dashed rounded-md cursor-pointer bg-pink-100/30 hover:bg-neutral-100"
+export const uploadFileContainer = "flex flex-col items-center justify-center w-full h-40 border-2 border-gray-200 border-dashed rounded-md cursor-pointer bg-almond-100/50 hover:bg-neutral-100"
 
 export function UploadFileIcon() {
   return (

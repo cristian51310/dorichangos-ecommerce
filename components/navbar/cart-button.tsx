@@ -12,7 +12,7 @@ export function CartSheet() {
     <Button
       variant="outline"
       className="text-muted-foreground px-2.5 md:px-5"
-      onClick={() => router.push("/home/cart")}
+      onClick={() => router.push("/cart")}
     >
       <HiOutlineShoppingCart className="text-lg md:mr-1.5 text-black" />
       <p className="hidden md:block">{cartTotalQty} Productos</p>

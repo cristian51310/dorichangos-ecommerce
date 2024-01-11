@@ -100,7 +100,7 @@ export default function CheckoutClient() {
             <p className="text-5xl font-bold text-center mb-3">Pago exitoso</p>
             <p className="text-xl text-center text-neutral-800 my-4">Gracias por tu compra</p>
           </div>
-          <Button onClick={() => router.push("/home/profile/orders")}>
+          <Button onClick={() => router.push("/profile/orders")}>
             Ver mis ordenes
             <ArrowRight className="ml-2" size={24} />
           </Button>

@@ -21,7 +21,7 @@ export function Menu() {
   const router = useRouter()
 
   return (
-    <Menubar className="rounded-none bg-pink-300 border-y border-none px-2 lg:px-4 py-9 justify-between">
+    <Menubar className="rounded-none bg-almond-200 border-y border-none px-2 lg:px-4 py-9 justify-between">
       <div className="flex items-center justify-center font-bold gap-2 ml-3">
         <Image
           src="/logo.jpg"

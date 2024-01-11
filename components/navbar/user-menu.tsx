@@ -28,12 +28,12 @@ export function UserMenu({ user }: UserMenuProps) {
 
       {user ? (
         <DropdownMenuContent className="w-56" align="end" forceMount>
-          <Link href="/home/profile/orders">
+          <Link href="/profile/orders">
             <DropdownMenuItem>
               Mis Ordenes
             </DropdownMenuItem>
           </Link>
-          <Link href="/home/profile/reservations">
+          <Link href="/profile/reservations">
             <DropdownMenuItem>
               Mis Reservaciones
             </DropdownMenuItem>

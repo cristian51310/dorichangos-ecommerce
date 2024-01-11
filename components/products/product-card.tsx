@@ -27,7 +27,7 @@ export function ProductCard({ data }: { data: Product }) {
     <Card className="p-2 hover:cursor-pointer hover:shadow-xl">
       <div
         className="overflow-hidden rounded-md"
-        onClick={() => router.push(`/home/product/${data.id}`)}
+        onClick={() => router.push(`/product/${data.id}`)}
       >
         <Image
           src={data.image}

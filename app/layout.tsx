@@ -15,7 +15,12 @@ export const metadata: Metadata = {
   title: 'Dorichangos',
   description: 'Tu comida favorita en dorichangos',
   manifest: '/manifest.webmanifest',
-  icons: { apple: "/icon.jpg" }
+  icons: [
+    {
+      url: '/logo.jpg',
+      href: '/logo.jpg',
+    }
+  ]
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -27,15 +32,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           fontSans.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Toaster richColors />
+       <Toaster richColors />
           {children}
-        </ThemeProvider>
       </body>
     </html>
   )
